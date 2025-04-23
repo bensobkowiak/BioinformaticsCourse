@@ -6,7 +6,7 @@ body {
 
 .sidebar {
   width: 200px;
-  background: #6d946f;
+  background: #6d8494;
   color: white;
   padding: 1.5rem 1rem;         /* reduce horizontal padding */
   height: 100vh;
@@ -38,7 +38,7 @@ body {
 }
 
 .sidebar-links {
-  text-align: center; /* ✅ Center the sidebar text only */
+  text-align: left; /* ✅ Center the sidebar text only */
   margin-top: 3rem;
 }
 
@@ -75,8 +75,18 @@ footer {
 }
 
 h2 {
-  color: #6d946f;
+  color: #6d8494;
   font-size: 1.8rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 8px;
 }
 
 .content-image {
