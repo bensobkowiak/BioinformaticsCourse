@@ -112,3 +112,32 @@ code {
   margin: 2rem 0;
   border-radius: 8px; /* optional: soft rounded corners */
 }
+
+.section-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.section-subtitle {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  color: white;
+}
+
+.subsection {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.subsection a {
+  font-size: 1rem;
+  font-weight: normal;
+  color: white;
+  display: block;
+  padding: 6px 0;
+}
