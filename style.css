@@ -79,6 +79,11 @@ h2 {
   font-size: 1.8rem;
 }
 
+h3 {
+  color: black;
+  font-size: 1.2rem;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
