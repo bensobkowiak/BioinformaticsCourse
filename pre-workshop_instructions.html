@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Genomic Analysis and Phylodynamics Workshop</h2>
+
+<h2>Pre-course Instructions</h2>
+
+<p>
+Please follow these instructions to download all programs and data for the course. You will require ~1GB of space to install all programs and data.
+</p>
+
+<p>
+Please create a new folder in which you will keep all the course materials and scripts (e.g., something like <code>/Users/yourname/Documents/workshop/</code>).
+</p>
+
+<br>
+
+<h2>Data and Scripts</h2>
+
+<p>
+Please download all data and scripts required for this course by clicking the following link (Note, the file size is ~ MB) and saving all the data and scripts contained in a folder on your computer.
+</p>
+
+<p>
+<a href="https://drive.google.com/drive/folders/1w3WG0jCj9BfB6aMB2Kq7vC2Yfx1ck6NB?usp=share_link">Download Data and Scripts</a>
+</p>
+
+<br><br>
+
+<h2>Programs and software</h2>
+
+<h3>Mac and Linux users</h3>
+
+<p>The easiest method for downloading all the software required for the workshop is to first download Miniconda.</p>
+
+<h4>Mac users, please follow these instructions:</h4>
+
+<ol>
+  <li>Open the Terminal.</li>
+  <li>Enter the following code:</li>
+</ol>
+
+<pre><code># Download and install Miniconda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh
+bash ~/miniconda.sh -b -p $HOME/miniconda
+
+# Follow prompts, then restart terminal
+</code></pre>
+
+<h4>Linux users, please follow these instructions:</h4>
+
+<ol>
+  <li>Open the Terminal.</li>
+  <li>Enter the following code:</li>
+</ol>
+
+<pre><code># Download and install Miniconda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+bash ~/miniconda.sh -b -p $HOME/miniconda
+
+# Follow prompts, then restart terminal
+</code></pre>
+
+<h4>Both Mac and Linux users:</h4>
+
+<p>Following the link to download the scripts above, you should have downloaded three scripts: <code>Install_programs.sh</code>, <code>workshop_env.yml</code>, and <code>install_r_github.R</code>. These are the three scripts required to download all the programs required for the workshop.</p>
+
+<ol>
+  <li>Open your terminal again.</li>
+  <li>Navigate to the folder where you downloaded the scripts and data (e.g., <code>/Users/yourname/Documents/workshop/</code>):</li>
+</ol>
+
+<pre><code>cd /Users/yourname/Documents/workshop/
+</code></pre>
+
+<ol start="3">
+  <li>Run the following command:</li>
+</ol>
+
+<pre><code>bash Install_programs.sh
+</code></pre>
+
+<p>
+After around 5–10 minutes, you should now have a Conda environment called <code>bioinfo-workshop</code> and can run all the analysis from there.
+</p>
+
+<p>To activate the environment, run:</p>
+
+<pre><code>source "$HOME/miniconda/etc/profile.d/conda.sh"
+conda activate bioinfo-workshop
+</code></pre>
+
+<br>
+
+<h3>Windows users</h3>
+
+<p>For Windows users, it's a bit more involved to install Miniconda.</p>
+
+<h4>First, install WSL (Windows Subsystem for Linux)</h4>
+
+<ol>
+  <li>Open PowerShell as Administrator and run:</li>
+</ol>
+
+<pre><code>wsl --install
+</code></pre>
+
+<p>This will:</p>
+<ul>
+  <li>Install WSL2</li>
+  <li>Install Ubuntu (default)</li>
+  <li>Set up necessary components</li>
+</ul>
+
+<p>Restart your computer when prompted.</p>
+
+<h4>Set up Ubuntu in WSL</h4>
+
+<p>
+After reboot, Ubuntu should open automatically. If not, open the WSL app manually. Wait for installation to complete, then choose a username and password when prompted. This opens a Linux terminal (Ubuntu shell).
+</p>
+
+<h4>Install Miniconda inside WSL</h4>
+
+<pre><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+bash miniconda.sh
+</code></pre>
+
+<p>Accept the license agreement and confirm the default install location (e.g., <code>/home/yourname/miniconda3</code>).</p>
+
+<p>When installation finishes, close and reopen WSL, or run:</p>
+
+<pre><code>source ~/.bashrc
+</code></pre>
+
+<p>Export Conda into your path with:</p>
+
+<pre><code>export PATH=~/miniconda3/bin:$PATH
+</code></pre>
+
+<p>Check that Conda is available:</p>
+
+<pre><code>conda --version
+</code></pre>
+
+<h4>Move Setup Scripts Into WSL</h4>
+
+<p>Place the files (<code>Install_programs.sh</code>, <code>workshop_env.yml</code>, <code>install_r_github.R</code>) in a folder on Windows, e.g., <code>C:\Users\yourname\Documents\workshop</code>.</p>
+
+<p>In the Ubuntu terminal, navigate to that folder:</p>
+
+<pre><code>cd /mnt/c/Users/yourname/Documents/workshop/
+</code></pre>
+
+<h4>Run the install script:</h4>
+
+<pre><code>bash Install_programs.sh
+</code></pre>
+
+<p>
+After 5–10 minutes, you should have a Conda environment called <code>bioinfo-workshop</code> set up and ready.
+</p>
+
+<p>To activate it:</p>
+
+<pre><code>conda activate bioinfo-workshop
+</code></pre>
+
+<br>
+
+<h3>All users</h3>
+
+<p>These programs must be installed directly from their websites:</p>
+
+<ul>
+  <li><a href="https://posit.co/download/rstudio-desktop/" target="_blank">RStudio</a></li>
+  <li><a href="https://www.beast2.org/" target="_blank">BEAST2</a></li>
+  <li><a href="http://tree.bio.ed.ac.uk/software/tracer/" target="_blank">Tracer</a></li>
+  <li><a href="http://tree.bio.ed.ac.uk/software/figtree/" target="_blank">FigTree</a></li>
+  <li><a href="https://ics.hutton.ac.uk/tablet/" target="_blank">Tablet</a></li>
+  <li><a href="https://ormbunkar.se/aliview/" target="_blank">AliView</a></li>
+</ul>
+
+<br>
+  Click <a href="https://bensobkowiak.github.io/BioinformaticsCourse/">here</a> to return to the course homepage.
+
+  </body>
+</html>
