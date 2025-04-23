@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  background: #6d946f;
+  color: white;
+  padding: 1.5rem 1rem;         /* reduce horizontal padding */
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar-logos {
+  display: flex;
+  flex-direction: column;   /* stack vertically */
+  align-items: flex-start;
+  gap: 0.25px;
+  margin-bottom: 2rem;      /* bring logos up from the very bottom */
+}
+
+.logo {
+  height: 40px;
+  object-fit: contain;
+}
+
+.sidebar h1 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-links {
+  text-align: center; /* ✅ Center the sidebar text only */
+  margin-top: 3rem;
+}
+
+.sidebar-links a {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  padding: 14px 0;
+  line-height: 1.2;
+  font-weight: bold;
+  font-size: 1.5rem;
+  white-space: normal;
+}
+
+.sidebar-links a:hover {
+  text-decoration: underline;
+}
+
+.content {
+  margin-left: 250px;        /* push content to the right of the fixed sidebar */
+  padding: 2rem 3rem 0rem 2rem;
+  flex-grow: 1;
+  background: white;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+footer {
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  color: #888;
+  text-align: right;
+  background-color: white;
+}
+
+h2 {
+  color: #6d946f;
+  font-size: 1.8rem;
+}
+
+.content-image {
+  width: 1000px;        /* or set a fixed width like 600px */
+  max-width: 1000px;
+  display: block;
+  margin: 2rem 0;
+  border-radius: 8px; /* optional: soft rounded corners */
+}
