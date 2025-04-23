@@ -94,6 +94,17 @@ th, td {
   padding: 8px;
 }
 
+pre {
+  background-color: #f5f5f5; /* light grey */
+  padding: 12px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: monospace;
+}
+
 .content-image {
   width: 1000px;        /* or set a fixed width like 600px */
   max-width: 1000px;
