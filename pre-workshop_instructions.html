@@ -85,7 +85,7 @@ bash ~/miniconda.sh -b -p $HOME/miniconda
 </code></pre>
 
 <p>
-After around 5–10 minutes, you should now have a Conda environment called <code>bioinfo-workshop</code> and can run all the analysis from there.
+This may take up to 30 minutes, and you should now have a Conda environment called <code>bioinfo-workshop</code> and can run all the analysis from there.
 </p>
 
 <p>To activate the environment, run:</p>
@@ -158,9 +158,9 @@ bash miniconda.sh
 <pre><code>cd /mnt/c/Users/yourname/Documents/workshop/
 </code></pre>
 
-<h4>Run the install script:</h4>
+<h4>Run the install script for Windows:</h4>
 
-<pre><code>bash Install_programs.sh
+<pre><code>bash Install_programs_windows.sh
 </code></pre>
 
 <p>
@@ -169,7 +169,9 @@ After 5–10 minutes, you should have a Conda environment called <code>bioinfo-w
 
 <p>To activate it:</p>
 
-<pre><code>conda activate bioinfo-workshop
+<pre><code>
+  source ~/miniconda3/etc/profile.d/conda.sh 
+  conda activate bioinfo-workshop
 </code></pre>
 
 <br>
