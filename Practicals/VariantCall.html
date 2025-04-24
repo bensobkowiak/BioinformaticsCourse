@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Variant Call</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (Bactdaing)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+  <h2>Variant calling and the VCF format</h2>
+<p>In the previous activity, we viewed  BAM files manually in Tablet. To identify variants, one could theoretically search the BAM file for SNPs and small insertions/deletions (Indels) to identify diffences between the reference strain and each sample. However, this would not be efficient and it can be subjective as to whether we trust that the aligned sequences at that site are free or error. </p>
+<p>Instead, we specialized software to ‘call’ potential variants in our BAM files, using probabilistic methods for determining the likelihood of a SNP or Indel being true variation or sequencing/alignment errors. We can also call variants in multiple samples concurrently and use this information to build up a picture of the variation across our samples.</p>
+<p>Here, we will use the software <a href="https://bio-bwa.sourceforge.net">GATK</a> to carry out variant calling. This software takes steps to improve the accuracy of variant calls, such as base quality recalibration and local realignment around structural variants, to increase our confidence in the detected SNPs and Indels.</p>
+<p>After variant calling, we will inspect the resulting Variant Call Format (VCF) file.</p>
+<p>For this activity, we will use the following files found in your data folder:</p>
+<ul>
+<li>
+<p><strong>ERR221611.bam</strong> and <strong>ERR221611.bai</strong> – A BAM files and ccompanying index file from a <em>Mycobacterium tuberculosis</em> isolate that has been aligned against the H37Rv reference strain.</p>
+</li>
+<li>
+<p><strong>ERR212102.vcf</strong>, <strong>ERR212102.vcf.idx</strong>, <strong>ERR190342.vcf</strong> and <strong>ERR190342.vcf.idx</strong> - GVCF and index files for 2 isolates of <em>Mycobacterium tuberculosis</em> that have been created with GATK 'HaplotypeCaller'.</p>
+</li>
+<li>
+<p><strong>H37Rv.fasta</strong> – A single consensus sequence for a laboratory strain of <em>Mycobacterium tuberculosis</em> that has been widely used in tuberculosis research as a well-characterized reference strain. This sequence is 4,411,532 base pairs long and represents the full genome of this sample.</p>
+</li>
+</ul>
+<h3>Calling variants with GATK</h3>
+<ol>
+<li>As an intial step, we need to create .fai and .dict index files for our reference sequence using SAMtools and GATK:</li>
+</ol>
+<pre><code class="language-bash">samtools faidx H37Rv.fasta
+gatk CreateSequenceDictionary -R H37Rv.fasta
+</code></pre>
+<p><br></p>
+<ol>
+<li>The first command when calling variants with GATK is to use 'HaplotypeCaller' to generate a per-sample intermediate GVCF, which is not to be used in final analysis). This GVCF is a file with raw, unfiltered SNP and Indel calls for each sample against the reference.</li>
+</ol>
+<pre><code class="language-bash">gatk HaplotypeCaller --native-pair-hmm-threads 2 -R H37Rv.fasta -I ERR221611.bam --max-reads-per-alignment-start 0 --emit-ref-confidence GVCF -O ERR221611.vcf
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--native-pair-hmm-threads</code></td>
+<td>The number of threads to use</td>
+</tr>
+<tr>
+<td><code>-R</code></td>
+<td>The reference sequence to be used in the analysis.</td>
+</tr>
+<tr>
+<td><code>-I</code></td>
+<td>The input BAM file containing aligned reads.</td>
+</tr>
+<tr>
+<td><code>--max-reads-per-alignment-start</code></td>
+<td>The maximum number of reads to retain per alignment start position. Reads above this threshold will be downsampled, reducing errors due to spikes in coverage. Set to 0 to disable.</td>
+</tr>
+<tr>
+<td><code>--emit-ref-confidence</code></td>
+<td>Specifies that the output format will be a GVCF, which includes confidence in the site being the reference allele.</td>
+</tr>
+<tr>
+<td><code>-O</code></td>
+<td>The output name of the per-sample VCF (Variant Call Format) file.</td>
+</tr>
+</tbody>
+</table>
+<p>This can take up to 30 minutes so we have provided you with the GVCF files and associated index (.idx) for the ERR212102 and ERR190342 isolates. Please take a break whilst this is running.</p>
+<p><br></p>
+<ol>
+<li>Next, we need to create a list of the GVCF file names for the nexts stage in the variant calling:</li>
+</ol>
+<pre><code class="language-bash">ls ERR221611.vcf ERR212102.vcf ERR190342.vcf &gt; Sample.list
+</code></pre>
+<p><br></p>
+<ol>
+<li>We will then use GenomicDBImport to import per-sample GVCFs into a GenomicsDB space before joint genotyping.</li>
+</ol>
+<pre><code class="language-bash">gatk GenomicsDBImport -V Sample.list --genomicsdb-workspace-path ./Database -L NC_000962.3 --reader-threads 2
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-V</code></td>
+<td>The input sample list of GVCFs.</td>
+</tr>
+<tr>
+<td><code>--genomicsdb-workspace-path</code></td>
+<td>An empty or non-existent folder to use as a workspace for GenomicsDB.</td>
+</tr>
+<tr>
+<td><code>-L</code></td>
+<td>The genomic intervals to call variants. In this example, we use the whole genome, specifying the name of the reference sample (NC_000962.3 in the H37Rv.fasta file). This can be the name of individual chromosomes or genes if BAM files were aligned accordingly.</td>
+</tr>
+<tr>
+<td><code>--reader-threads</code></td>
+<td>The number of threads to use for processing.</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ol>
+<li>Next is the joint variant calling using 'GenotypeGVCFs'. This will create a single VCF with all variants (SNPs, indels) across all samples:</li>
+</ol>
+<pre><code class="language-bash">gatk GenotypeGVCFs -R H37Rv.fasta -V gendb://Database -O All_variants.vcf
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-R</code></td>
+<td>The name of the reference sequence.</td>
+</tr>
+<tr>
+<td><code>-V</code></td>
+<td>The path to the GenomicsDB workspace.</td>
+</tr>
+<tr>
+<td><code>-O</code></td>
+<td>The name of the output VCF file.</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ol>
+<li>Finally we want to carry out some steps to filter our SNPs and Indels to leave only high confidence variant calls. We will first separate the full VCF file into different files for SNPs and Indels as we will employ different filtering parameters and threshold:</li>
+</ol>
+<pre><code class="language-bash">gatk SelectVariants -V All_variants.vcf -select-type SNP -O SNPs.vcf
+gatk SelectVariants -V All_variants.vcf -select-type INDEL -O INDELs.vcf
+</code></pre>
+<p><br></p>
+<ol>
+<li>We will then use "VariantFiltration" to add  our SNPs and Indels using the following commands (Note, this step will not actually remove any variants but will instead label variants that have not met the given filter thresholds in the VCF file):</li>
+</ol>
+<pre><code class="language-bash">gatk VariantFiltration -V SNPs.vcf -filter &quot;QD &lt; 2.0&quot; --filter-name &quot;QD2&quot; -filter &quot;QUAL &lt; 30.0&quot; --filter-name &quot;QUAL30&quot; -filter &quot;SOR &gt; 3.0&quot; --filter-name &quot;SOR3&quot; -filter &quot;FS &gt; 60.0&quot; --filter-name &quot;FS60&quot; -filter &quot;MQ &lt; 40.0&quot; --filter-name &quot;MQ40&quot; -O SNPs_filtered.vcf
+</code></pre>
+<pre><code class="language-bash">gatk VariantFiltration -V INDELS.vcf -filter &quot;QD &lt; 2.0&quot; --filter-name &quot;QD2&quot; -filter &quot;QUAL &lt; 30.0&quot; --filter-name &quot;QUAL30&quot; -filter &quot;FS &gt; 200.0&quot; --filter-name &quot;FS200&quot; -O INDELS_filtered.vcf
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-V</code></td>
+<td>The name of the input VCF.</td>
+</tr>
+<tr>
+<td><code>-filter</code></td>
+<td>Each filter option will have its own '-filter' variable, including the code and threshold value. Full details of the different filtering options can be found <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890471-Hard-filtering-germline-short-variants">here</a>.</td>
+</tr>
+<tr>
+<td><code>-filter-name</code></td>
+<td>The name to use in the VCF file for the preceding filter if the variant does not meet the threshold.</td>
+</tr>
+<tr>
+<td><code>-O</code></td>
+<td>The name of the output filtered VCF file.</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ol>
+<li>Let us now look at the resulting VCF files to understand the format of variant call output files.</li>
+</ol>
+<p><br></p>
+<h3>Inspecting the VCF file</h3>
+<ol>
+<li>
+<p>Please open the SNPs_filtered.vcf file using your extended text viewer (e.g., Subline Text).</p>
+</li>
+<li>
+<p>The VCF file should look like this:</p>
+<p><img src="Pictures/VCF1.jpeg" alt="Description1" width="70%"/></p>
+</li>
+<li>
+<p>Lines 1 – 44 are the header lines, containing the BAM file creation and variant calling parameters. This is just a store of the bioinformatic steps that have been carried out. The number of lines will change for different analyses.</p>
+</li>
+<li>
+<p>Line 45 is the column header, showing what each column corresponds to, including the file names.</p>
+</li>
+<li>
+<p>From line 46 onwards are the detected variants, with each row corresponding to a single position in respect the reference sequence.</p>
+</li>
+</ol>
+<p>As you can see, viewing the VCF file in a text editor isn't very useful. So we can open the file as a table in R Studio to get a better idea of the important aspects for filtering and building a consensus sequence.</p>
+<p><br></p>
+<ol>
+<li>Open R (or R Studio) and complete the following exercise:</li>
+</ol>
+<p><strong><em>Exercise: Identify some potential SNPs or mixed sites in ERR221611 that are not present in the other samples. Which nucleotide would be present in each isolates?</em></strong></p>
+<p><a href="ViewVCF.html">Explore VCF files in R</a></p>
+<p><br></p>
+<p>Next acitvity: <a href="Consensus_sequence.html">Filter variants and construct consensus sequence and SNP matrix</a></p>
+		
+	</div>
+</body>
+
+
+  
+</html>

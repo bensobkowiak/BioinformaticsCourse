@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Align Sequence</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (Bactdaing)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+  
+  <h2>Align consensus sequences</h2>
+<p>In the previous exercise, we constructed a FASTA file of aligned sequences comprised of SNPs built using a VCF file from sequences that had all been aligned to the same reference strain. In some cases though, you may receive consensus sequences from different sources that have not been aligned. This may be because they have been mapped against different reference strains or assembled using a reference-free approach (e.g., <em>de novo</em> assembly). This will be the case when downloading SARS-CoV-2 sequences from GISAID (Practical 1, exercise 1).</p>
+<p>To compare sequences and identify variation to allow for phylogenetic tree building and genomic comparison, sequences must be aligned so that the position of corresponding sites matches. Here, we will use the program "mafft" to align the 246 SARS-CoV-2 B.1.1.7 variant sequences that have been collected from Taiwan and assembled in different groups. We will align the sequences against the well-characterized Wuhan-1 SARS-CoV-2 sequence (GenBank accession number MN908947.3), which is 29903 bp in length and has been been used previously as a reference strain.</p>
+<p>The data we will use for this exercise are:</p>
+<ul>
+<li>
+<p><strong>Taiwan_B.117.fasta</strong> - A FASTA file containing the unaligned 246 SARS-CoV-2 B.1.1.7 sequences downloaded from GISAID.</p>
+</li>
+<li>
+<p><strong>Wuhan1.fasta</strong> - The Wuhan-1 SARS-CoV-2 strain.</p>
+</li>
+</ul>
+<p><br></p>
+<ol>
+<li>
+<p>View the unaligned "Taiwan_B117.fasta" file in AliView. It should look like this:</p>
+<p><img src="Pictures/AliView.jpeg" alt="Description1" width="90%"/></p>
+</li>
+<li>
+<p>Input the following command to align the sequences to the Wuhan-1 reference strain:</p>
+</li>
+</ol>
+<pre><code class="language-bash">mafft --auto --thread -2 --keeplength --preservecase --addfragments Taiwan_B117.fasta Wuhan1.fasta &gt; Taiwan_B117_aligned.fasta
+</code></pre>
+<p><em>This may take a few minutes to execute.</em></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auto</code></td>
+<td>Automatically selects an appropriate strategy from L-INS-i, FFT-NS-i, and FFT-NS-2, according to data size.</td>
+</tr>
+<tr>
+<td><code>thread</code></td>
+<td>The number of threads to use for multi-threading. Here we have used 2 threads, but you can use more to increase speed.</td>
+</tr>
+<tr>
+<td><code>keeplength</code></td>
+<td>Aligns the sequences while preserving the length of the reference strain. This is optimal to allow for better indexing of sites against the well-characterized reference sequence.</td>
+</tr>
+<tr>
+<td><code>preservecase</code></td>
+<td>Retains all nucleotides as lower/uppercase.</td>
+</tr>
+<tr>
+<td><code>addfragments</code></td>
+<td>Will add fragments of sequences to existing alignments (good for closely related samples.</td>
+</tr>
+<tr>
+<td><code>Taiwan_B117.fasta</code></td>
+<td>The name of our unaligned input file.</td>
+</tr>
+<tr>
+<td><code>Wuhan1.fasta</code></td>
+<td>The name of our reference sequence.</td>
+</tr>
+<tr>
+<td><code>Taiwan_B117_aligned.fasta</code></td>
+<td>The name of our output file.</td>
+</tr>
+</tbody>
+</table>
+<p>This will align your sequences to the Wuhan 1 reference strain, and add the reference strain into the alignment (the name will be the GenBank accession number MN908947.3).</p>
+<ol>
+<li>View your newly aligned sequence using AliView.</li>
+</ol>
+<h3>Exercise:</h3>
+<p>The recommendation for SARS-CoV-2 sequence alignments to the Wuhan 1 reference is to mask sites at the start and end of the sequence as these are prone to errors in sequencing, which results in a high number of ambiguities. The positions to mask are all nucleotides from 1 - 264 and 29674 - 29903.</p>
+<p>The solution is to cut the sequence at these positions or to replace all nucleotides at these positions with an ambiguous base call "N". The latter is the best option as we keep the sequence length as 29903, this will allow us to retain the positions relative to Wuhan 1 that . It will also retain the position to easily interpret any estimates for the substitution or mutation rate in any subsequent analysis (we will cover this in future practicals).</p>
+<ol>
+<li>
+<p>Open R</p>
+</li>
+<li>
+<p>Make sure the program 'seqinr' is installed:</p>
+</li>
+</ol>
+<pre><code class="language-R">install.packages(&quot;seqinr&quot;)
+library(seqinr)
+</code></pre>
+<ol>
+<li>Read in the aligned sequence file "Taiwan_B117_aligned.fasta". This will assign the sequence alignment as a list in R.</li>
+</ol>
+<pre><code class="language-R">B117_aligned&lt;-seqinr::read.fasta(&quot;Taiwan_B117_aligned.fasta&quot;, forceDNAtolower = F)
+</code></pre>
+<ol>
+<li>
+<p>Try to write a short script in R that will change the nucleotides at the masked positions and call this new list "Taiwan_B117_aligned_masked"</p>
+</li>
+<li>
+<p>Save the new masked fasta file with the following command:</p>
+</li>
+</ol>
+<pre><code class="language-R">seqinr::write.fasta(Taiwan_B117_aligned_masked,names(Taiwan_B117_aligned_masked),&quot;Taiwan_B117_aligned_masked.fasta&quot;,open = &quot;w&quot;)
+</code></pre>
+<p><em>Tips:</em> <br>
+<em>1. Each samples sequence is list element, so you can use the 'lapply' function to apply to all sequences</em> <br>
+<em>2. Use the 'replace' function</em> <br>
+<em>3. The names of each list element will not be carried out after replacing so add the names of "Taiwan_B117_aligned" to "Taiwan_B117_aligned_masked"</em> <br></p>
+<p>Please work together if needed and if you get stuck, there is a solution <a href="mask_sites.html">here</a>.</p>
+<ol>
+<li>Finally, view your aligned and masked sequence file by opening with AliView.</li>
+</ol>
+<p>Next activity: <a href="ML_trees.html">Maximum Likelihood phylogenetic trees</a></p>
+  
+		
+	</div>
+</body>
+
+
+  
+</html>

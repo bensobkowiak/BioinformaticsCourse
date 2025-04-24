@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapping </title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (Bactdaing)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+  
+  <h2>Mapping/aligning sequence data to a reference genome</h2>
+<p>After inspecting and potentially improving the quality of the raw sequence FASTQ files, we now want to attempt to reconstruct the genome from the short reads. This process involves aligning the reads against a reference sequence, identifying similarities and differences, and ultimately generating a consensus sequence.</p>
+<p>Here, we will go through an approach to do this using <a href="https://bio-bwa.sourceforge.net">BWA</a>. This is a specialized software for mapping sequences against a reference, which is particularly good for low-divergence organisms such as TB. </p>
+<p>For this activity, we will use the following files found in your /data/ folder:</p>
+<ul>
+<li>
+<p><strong>TB1_R1.fastq.gz</strong> and <strong>TB1_R2.fastq.gz</strong> – Paired-end 250bp sequence data from <em>Mycobacterium tuberculosis</em>, collected from sputum and cultured before DNA library preparation. These have been inspected and cleaned already.</p>
+</li>
+<li>
+<p><strong>H37Rv.fasta</strong> – A single consensus sequence for a laboratory strain of <em>Mycobacterium tuberculosis</em> that has been widely used in tuberculosis research as a well-characterized reference strain. This sequence is 4,411,532 base pairs long and represents the full genome of this sample.</p>
+</li>
+</ul>
+<p><br></p>
+<ol>
+<li>First we can view the options in BWA by simply typing the following command in your terminal:</li>
+</ol>
+<pre><code class="language-bash">  bwa
+</code></pre>
+<p>This will display all options for BWA:</p>
+<p><img src="Pictures/bwa1.jpeg" alt="Description" width="60%"/></p>
+<p><br></p>
+<ol>
+<li>Before mapping the reads, we need to first index our reference genome using the BWA ‘index’ command:</li>
+</ol>
+<pre><code class="language-bash">bwa index H37Rv.fasta
+</code></pre>
+<p>This will create five new index files associated with the H37Rv.fasta file. To view these, you can enter:</p>
+<pre><code class="language-bash">ls H37Rv*
+</code></pre>
+<p><br></p>
+<ol>
+<li>
+<p>We can now align our paired-end reads for each sample to the reference. As you can see from the options shown in step 1, there are multiple options in BWA for alignment, with the main alignment algorithms being:</p>
+</li>
+<li>
+<p>aln/samse/sampe for BWA-backtrack (best for reads under 100bp)</p>
+</li>
+<li>bwasw for BWA-SW (better for reads over 100bp)</li>
+<li>mem for BWA-MEM (best for reads over 100bp, faster and more accurate than bwasw)</li>
+</ol>
+<p>We will just be using the standard parameters for our alignments so will not add any other options but it is important to review and optimize these options for your data. Further information on these options can be found [here].(https://bio-bwa.sourceforge.net/bwa.shtml)</p>
+<p>The following command will align our paired reads to the H37Rv reference strain:</p>
+<pre><code class="language-bash">bwa mem H37Rv.fasta TB1_R1.fastq.gz TB1_R2.fastq.gz &gt; TB1.sam
+</code></pre>
+<p>This will produce a SAM file in the same folder, which we are calling TB1.sam. </p>
+<p><br></p>
+<ol>
+<li>We now need to convert the SAM file into its binary format – BAM file. This is the format that is required as an input for variant calling software (to be covered in tomorrow's activities) and visualization tools, as well as reducing the file size. We can use SAMtools ‘view’ to convert from SAM to BAM (the -b option tells the program to output a BAM file):</li>
+</ol>
+<pre><code class="language-bash">samtools view -b TB1.sam &gt; TB1.bam
+</code></pre>
+<p><em>Tip: You can now remove the SAM file now to free up space as we now have the alignment in BAM format:</em></p>
+<pre><code class="language-bash">rm TB1.sam 
+</code></pre>
+<p><br></p>
+<ol>
+<li>BAM files must be sorted and indexed by the chromosomes/contigs/scaffolds in your reference genome in order to efficiently display/access the data in the BAM file. We can do this with SAMtools:</li>
+</ol>
+<pre><code class="language-bash">samtools sort TB1.bam &gt; TB1_sorted.bam 
+</code></pre>
+<p><em>Tip: You can rename the sorted BAM file (which will also remove the unsorted BAM file):</em></p>
+<pre><code class="language-bash">mv TB1_sorted.bam TB1.bam
+</code></pre>
+<p>Then we will index the sorted BAM file that will create an additional .bai file:</p>
+<pre><code class="language-bash">samtools index TB1.bam 
+</code></pre>
+<p><br></p>
+<ol>
+<li>Finally, you can print summary statistics from the indexed BAM file using the SAMtools ‘flagstat’ option:</li>
+</ol>
+<pre><code class="language-bash">samtools flagstat TB1.bam 
+</code></pre>
+<p>It will look something like this:</p>
+<p><img src="Pictures/samtools1.jpeg" alt="Description" width="60%"/></p>
+<p>Where each line specifies: </p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Total number of reads</td>
+<td>Total count of reads in the sequencing dataset.</td>
+</tr>
+<tr>
+<td>2. Duplicates</td>
+<td>Number of duplicate reads in the dataset.</td>
+</tr>
+<tr>
+<td>3. Number of mapped reads</td>
+<td>Count of reads that successfully align to a reference genome.</td>
+</tr>
+<tr>
+<td>4. Paired reads in sequencing</td>
+<td>Total number of paired-end reads in the sequencing dataset.</td>
+</tr>
+<tr>
+<td>5. Number of forward reads</td>
+<td>Count of reads aligned in the forward orientation.</td>
+</tr>
+<tr>
+<td>6. Number of reverse reads</td>
+<td>Count of reads aligned in the reverse orientation.</td>
+</tr>
+<tr>
+<td>7. Number of properly mapped reads</td>
+<td>Reads that are properly mapped, i.e., same chromosome, opposite orientation, and within a few deviations from the expected insert size.</td>
+</tr>
+<tr>
+<td>8. Number of reads mapped along with their mates</td>
+<td>Total number of reads where both ends of the paired reads are successfully mapped. (7 is a subset of 8)</td>
+</tr>
+<tr>
+<td>9. Singletons</td>
+<td>Number of reads mapped alone, i.e., mates not mapped. (8 + 9 = 3)</td>
+</tr>
+<tr>
+<td>10. Reads whose mates are mapped to a different chromosome</td>
+<td>Reads where one end is mapped to a different chromosome than its mate.</td>
+</tr>
+<tr>
+<td>11. Reads whose mates are mapped to a different chromosome with mapping quality greater than 5</td>
+<td>Subset of (10) with a higher mapping quality threshold.</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p><em>Question: Why might line 3, number of mapped reads, be low? How might you increase the number of mapped reads?</em></p>
+<p><br></p>
+<p>Your “TB1 sequence data is now aligned to the reference genome H37Rv and stored in a BAM file, which has been indexed and sorted to the reference.</p>
+<p><br></p>
+<h3>Visualizing BAM files</h3>
+<ol>
+<li>Open the Program “Tablet” that will have saved to the applications on your computer. The opening screen should look like this:</li>
+</ol>
+<p><img src="Pictures/Tablet1.jpeg" alt="Description" width="60%"/></p>
+<p><br></p>
+<ol>
+<li>Click the “Open Assembly” button (in red above) to load alignment (TB1.bam) and reference file (H37Rv.fasta) by navigating to the folder these are stored in after clicking 'browse' in the “Select assembly files”.</li>
+</ol>
+<p><em>Note the BAM file will be the ‘primary assembly’ and H37Rv as the ‘Reference/Consensus’.</em></p>
+<p><img src="Pictures/Tablet2.jpeg" alt="Description" width="60%"/></p>
+<p><br></p>
+<ol>
+<li>This should have loaded the alignment file. Click the space under the “Contigs” section (highlighted in red below):</li>
+</ol>
+<p><img src="Pictures/Tablet3.jpeg" alt="Description" width="60%"/></p>
+<p><br></p>
+<p>Tablet loads and can display up to 25,000bp at a time as default, delimited by the Overview window.</p>
+<p>The reference sequence (and amino acid product) is displayed at [1]. The aligned reads are at [2], where each row is an aligned read. You can hover your curser over a read to display information about that read, including the number of mismatches against the reference strain.</p>
+<p>To navigate through the genome, you will need to use the bar on top by dragging it (3). To navigate through the 25 Kb loaded you can click and drag the Read panel (2) or use the button below (4). Note that the red numbers in each corner of the Read panel will display the region currently being shown (5).</p>
+<p><strong>Exercise:</strong> </p>
+<p>Scroll to base 1977, what do you see? What feature do you think this might be?</p>
+<p><em>Hint. It may become clearer if you click the “Tag variants” button in the top panel.</em></p>
+<ul>
+<li>
+<p>Zooming into the sequence can be done using the Zoom button in the Top bar.</p>
+</li>
+<li>
+<p>You can also jump straight to a base without scrolling by clicking the “jump to Base” button, entering a base coordinate and pressing “Padded Jump”.</p>
+</li>
+<li>
+<p>It is possible to change the Overview display to show a Coverage plot by using the “Coverage” button under the “Advanced” tab.</p>
+</li>
+</ul>
+<p><strong>Exercise:</strong> </p>
+<p>Jump to base 1,955,913, what do you see? Why do you think this is the case? What feature do you think this might be?</p>
+<p>Compare this to the sequence at 1,986,639. What do you think the difference is between these regions?</p>
+<hr />
+<p>Next activity: <a href="denovo.html">De novo assembly</a></p>
+  
+		
+	</div>
+</body>
+
+
+  
+</html>

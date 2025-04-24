@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clean FASTQ</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (Bactdaing)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+  
+  <h2>Cleaning and filtering FASTQ files</h2>
+<p>Although alignment tools can handle reads with some poor quality bases in a read and ignore junk reads, it can also be helpful to apply some cleaning and filtering steps to improve the quality of the remaining reads and to get a better sense for the good quality reads that remain. </p>
+<p>For instance, the quality of the last few bases of the read can be lower than the rest of the sequence read but we would not want to discard the whole read just because of few low-quality bases at the end. Also some adapter sequences may not have been filtered out after sequencing or there may be some reads that are completely useless from the sequencing run. </p>
+<p><a href="https://academic.oup.com/bioinformatics/article/30/15/2114/2390096">Trimmomatic</a> is a fast command line tool that can be used to trim and crop Illumina sequencing data, along with removing adapters and overrepresented sequences. </p>
+<p>The different flags and options for Trimmomatic are as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ILLUMINACLIP</code></td>
+<td>fastaWithAdapters: the path to a fasta file containing all the adapters, PCR sequences, etc.</td>
+</tr>
+<tr>
+<td></td>
+<td>seedMismatches: a value for the maximum mismatch count which will still allow a full match to be performed.</td>
+</tr>
+<tr>
+<td></td>
+<td>palindromeClipThreshold: a value for the treshold for how accurate the match between the two 'adapter ligated' reads must be for PE palindrome read alignment.</td>
+</tr>
+<tr>
+<td></td>
+<td>simpleClipThreshold: a value for the treshold for how accurate the match between any adapter etc. sequence must be against a read.</td>
+</tr>
+<tr>
+<td><code>SLIDINGWINDOW</code></td>
+<td>windowSize: a value for the number of bases to average across.</td>
+</tr>
+<tr>
+<td></td>
+<td>requiredQuality: a value for the average quality required.</td>
+</tr>
+<tr>
+<td><code>LEADING</code></td>
+<td>a value for  the minimum quality required to keep a base.</td>
+</tr>
+<tr>
+<td><code>TRAILING</code></td>
+<td>a value for  the minimum quality required to keep a base.</td>
+</tr>
+<tr>
+<td><code>CROP</code></td>
+<td>a value for the number of bases to keep, from the start of the read.</td>
+</tr>
+<tr>
+<td><code>HEADCROP</code></td>
+<td>a value for the number of bases to remove from the start of the read.</td>
+</tr>
+<tr>
+<td><code>MINLEN</code></td>
+<td>a value for  the minimum length of reads to be kept.</td>
+</tr>
+</tbody>
+</table>
+<p>The format to use a flag is <code>Flag:Option(s)</code>.</p>
+<p>An example of how to run Trimmomatic is as follows:</p>
+<pre><code class="language-bash">trimmomatic &lt;SE or PE&gt; &lt;fastq file&gt; &lt;output fastq&gt; &lt;options&gt;
+</code></pre>
+<p>So for example, a simple command to remove the first 10 bases from the start of the single-end reads of ‘Test1.fastq.gz” and output a file containing these trimmed reads called 'Test1_trimmed.fastq.gz' would be:</p>
+<pre><code class="language-bash">trimmomatic SE Test1.fastq.gz Test1_trimmed.fastq.gz HEADCROP:10
+</code></pre>
+<p>A more complex example is to remove an adapter sequence called “Truseq2-PE.fasta” (found in the ./Trimmomatic-0.39/adapters/” folder) from the pair-end read sequencing data ‘Test3_R1.fastq.gz' and ‘Test3_R2.fastq.gz'. We have set the seed mismatches at 2, palindrome clip threshold as 30, and the simple clip threshold as 10. Please note that ‘SE’ has now changed to ‘PE’.</p>
+<pre><code class="language-bash">trimmomatic PE Test3_R1.fastq.gz Test3_R2.fastq.gz\
+Test3_R1_paired.fastq.gz Test3_R1_unpaired.fastq.gz\
+Test3_R2_paired.fastq.gz Test3_R2_unpaired.fastq.gz\
+ILLUMINACLIP:./Trimmomatic-0.39/adapters/TruSeq2-PE.fa:2:30:10
+</code></pre>
+<p>Note that we have specified 4 output files: 2 for the 'paired' output where both reads survived the processing, and 2 for 'unpaired' output where a read survived, but the partner read did not.</p>
+<p><br></p>
+<h4>Please complete the following exercises:</h4>
+<p><br></p>
+<p><strong>Exercise 1.</strong> Inspect “Test1.fastq.gz” using FASTQC.</p>
+<p>Question: Given the options in Trimmomatic above, what could you do to improve the sequence data?</p>
+<p>Question: Why may this not be suitable for these data?</p>
+<p><br></p>
+<p><strong>Exercise 2.</strong> Inspect “Test2.fastq.gz” using FASTQC.</p>
+<p>Question: Given the options for Trimmomatic, what could you do to improve the sequence data? </p>
+<ul>
+<li>
+<p>Please execute a Trimmomatic command that you think may improve the sequence data and produce an output FASTQ called “Test2_trimmed.fastq.gz”.</p>
+</li>
+<li>
+<p>Look at the ‘overrepresented sequences’ in “Test2.fastq.gz”. Perform a BLASTN (BLAST nucleotide) search using the following website:</p>
+</li>
+</ul>
+<p><a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&amp;PAGE_TYPE=BlastSearch&amp;LINK_LOC=blasthome">BLASTN SEARCH</a></p>
+<p>Question: What is the likely source of the overrepresented sequence? What might this suggest to you?</p>
+<p><br></p>
+<p><strong>Exercise 3.</strong> Inspect “Test3_1.fastq.gz” and “Test3_2.fastq.gz” using FASTQC.</p>
+<p>Question: Given the options for Trimmomatic, what could you do to improve the sequence data? </p>
+<ul>
+<li>Please write and execute the Trimmomatic command that you think may improve the sequence data and produce output files called “Test3_1_paired.fastq.gz”, “Test3_1_unpaired.fastq.gz”, “Test3_2_paired.fastq.gz”, “Test3_2_unpaired.fastq.gz”.</li>
+</ul>
+<p><br></p>
+<p><strong>Exercise 4.</strong> Inspect “Test4_1.fastq.gz” and “Test4_2.fastq.gz” using FASTQC.</p>
+<ul>
+<li>Write a command to remove the adapter sequences from these sequence data. (<em>Tip: you can use the same adapter and parameters as in the example</em>)</li>
+</ul>
+<p>Question: Based on what you have learnt from previous activities and exercises, what can you see are the main issues with these sequence data after removing adapter sequences? What may be the source of these issues? (<em>Hint: Use BLASTN search and look at Basic sequence stats; M. smegmatis genome is around 7MB in size</em>)</p>
+<p><br></p>
+<p>Next acitvity: <a href="mapping.html">Mapping/aligning sequence data to a reference genome</a></p>
+  
+		
+	</div>
+</body>
+
+
+  
+</html>
