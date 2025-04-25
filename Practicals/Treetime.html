@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Obtaining Data</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (BactDating)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+  <h2>Maximum likelihood timed trees with TreeTime</h2>
+<p>These first two exercise will take you through different methods for producing time-calibrated trees using the untimed ML tree produced in the last practical. These methods use the existing topology of the input tree and dates at the tips (sequences) to estimate the date of nodes and re-scale branches per unit time.</p>
+<p>First, we will use <a href="https://treetime.readthedocs.io/en/latest/tutorials/timetree.html">TreeTime</a> to produce a timed phylogeny by applying a maximum likelihood approach. This is a powerful tool that will not only infer a timed phylogeny but also run an ancestral reconstruction of sequences, estimate past population demographics, and assess the amount of temporal signal in your data by performing a root-to-tip distance regression.</p>
+<p>The following files will be used for this exercise:</p>
+<ul>
+<li>
+<p><strong>Taiwan_B117_aligned_masked.fasta</strong> – The aligned multisequence FASTA file of 246 SARS-CoV-2 B.1.1.7 sequences from Taiwan downloaded from GISAID and aligned and masked in previous exercises.</p>
+</li>
+<li>
+<p><strong>Taiwan_B117_MLtree.treefile</strong> – The un-timed Maximum Likelihood phylogeny with bootstrapping produced from the 246 SARS-CoV-2 sequences in the previous exercise. This has also been provided for you in the Data folder.</p>
+</li>
+<li>
+<p><strong>Taiwan_B117_dates.csv</strong> – A CSV file containing the sequence names (column 1) and collection dates (column 2) of the 246 SARS-CoV-2 B.1.1.7 sequences from Taiwan.</p>
+</li>
+</ul>
+<p><br></p>
+<h3>To run TreeTime we will use the following command:</h3>
+<pre><code class="language-bash">treetime --tree Taiwan_B117_MLtree.treefile --dates Taiwan_B117_dates.csv --aln Taiwan_B117_aligned_masked.fasta --outdir Taiwan_B117_treetime --clock-rate 0.0008 --clock-std-dev 0.0004 --reroot MN908947.3 --coalescent skyline
+</code></pre>
+<p><br></p>
+<p>Where the parameters are as follows: </p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--tree</td>
+<td>The input un-timed phylogeny. Here we have used a ML tree but any type (parsimony, neighbour-joining) can be used if branch lengths are in substitution per site.</td>
+</tr>
+<tr>
+<td>--dates</td>
+<td>A CSV file with tip names and dates (format %Y-%m-%d or decimal year) in the first two columns.     These can be collection dates or date of symptom onset. Some dates can be partial or missing.</td>
+</tr>
+<tr>
+<td>--aln</td>
+<td>The alignment file used to create the un-timed phylogeny.</td>
+</tr>
+<tr>
+<td>--outdir</td>
+<td>The name to use as the directory to save all output files.</td>
+</tr>
+<tr>
+<td>--clock-rate</td>
+<td>A fixed clock rate to use in substitutions/site/time. This option can be removed if the clock rate can be confidently estimated from the data.</td>
+</tr>
+<tr>
+<td>--clock-std-dev</td>
+<td>The standard deviation on the clock rate in substitutions/site/time. Only to be used if using the --clock-rate parameter.</td>
+</tr>
+<tr>
+<td>--reroot</td>
+<td>Re-root the tree to the named sequence. This can also be set to 'oldest' to re-root on the sequence with the oldest date.</td>
+</tr>
+<tr>
+<td>--coalescent</td>
+<td>Activates the Kingman Coalescent model. This can be set as constant or skyline, or left blank to run without a tree prior.</td>
+</tr>
+</tbody>
+</table>
+<p>There are other parameters that can be included when running TreeTime, for full details please see <a href="https://treetime.readthedocs.io/en/latest/tutorials/timetree.html">here</a>.</p>
+<p><br></p>
+<h3>Explore the output from TreeTime, there will be 11 files in the "Taiwan_B117_treetime" folder:</h3>
+<ol>
+<li>Open "ancestral_sequences.fasta":</li>
+<p><em>Discuss what we think these sequences are, why are there more sequences (rows) than tips in the tree? <br></em></p>
+<p>The tree files are saved in the two .nexus files, as well as a plotted tree in PDF format. In FigTree, or using any other tree viewing software, you can open the two .nexus files: <br></p>
+
+<li><em>What is the difference between these trees? <br></em></li>
+<p>Finally, open the "skyline.pdf" file: <br></p>
+
+<li><em>WHat does this plot represent?<br></em></li>
+</ol>
+<p>More information on the effective population size can be found <a href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/effective-population-size">here</a></p>
+<p><br></p>
+<p>Next activity: <a href="BactDating.html">Two-step Bayesian timed trees with BactDating</a></p>
+  
+  
+		
+	</div>
+</body>
+
+
+  
+</html>
