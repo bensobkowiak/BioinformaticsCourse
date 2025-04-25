@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Obtaining Data</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (Bactdaing)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+  
+  <h2>Filter variants and construct consensus
+sequence and pairwise SNP distance matrix</h2>
+
+</div>
+
+
+<p><br></p>
+<p>From the previous exercise, we now have VCF files of potential SNPs
+and Indels that have been identified in our 3 samples against the H37Rv
+reference strain. We now want to assign a probable nucleotide call at
+these sites for each of our samples while filtering possible false
+positives or ambiguous calls.</p>
+<p>The final step of variant calling ‘VariantFiltration” added labels in
+the ’FILTER’ (column 6) field of the VCF at sites that did not meet the
+given threshold for that filter parameter. We can filter these variants
+that have failed any QC steps to decrease false positive variant calls.
+We may also want to set other thresholds to accept the per-sample
+variant calls, such as a minimum read depth at that position to account
+for spurious calls due to low coverage.</p>
+<p>In addition, while some software you may use for downstream analysis
+can use the VCF file directly as input, many will require a aligned
+sequence file, for example in the FASTA format. As such, we will need to
+construct a consensus sequence per sample by assigning a nucleotide at
+each position depending on the call in the VCF.</p>
+<p>There are programs available to do this (e.g., <a href="https://vcftools.sourceforge.net">VCFtools</a>, <a href="https://github.com/bensobkowiak/vcfProcess">vcfProcess</a>) but
+here we will go through some steps in R to do manual filtration of the
+VCF file and construct a consensus sequence of concatenated SNPs for
+each sample, which we will output as an multi-sequence alignment in the
+FASTA format.</p>
+<p><em>Note: We could assemble the full length consensus sequence from
+the VCF but for M.tb this is &gt; 4 million bases so we can assume that
+the sequence is the same as the reference in all samples if there is not
+a variant call (row) for that position. Also we will not use the Indel
+VCF file here but the tools above can filter Indels and construct a
+binary matrix of presence/absence of Indels for each sample.</em></p>
+<p><br></p>
+<p><strong>1. Set the options and load packages. We will use the R
+package ‘seqinr’ to read and write FASTA files and the ‘ape’ package to
+calculate the pairwise SNP distance.</strong></p>
+<pre class="r"><code># Set packages and options
+if (!require(seqinr)){
+  install.packages(&quot;seqinr&quot;,repos = &quot;http://cran.us.r-project.org&quot;)
+  library(seqinr)
+}</code></pre>
+<pre><code>## Loading required package: seqinr</code></pre>
+<pre class="r"><code>if (!require(ape)){
+  install.packages(&quot;ape&quot;,repos = &quot;http://cran.us.r-project.org&quot;)
+  library(ape)
+}</code></pre>
+<pre><code>## Loading required package: ape</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ape&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:seqinr&#39;:
+## 
+##     as.alignment, consensus</code></pre>
+<pre class="r"><code>options(stringsAsFactors = F)</code></pre>
+<p><br></p>
+<p><strong>2. From the previous exercise you should have the VCF file in
+a data.frame called ‘vcf’ with the correct column names. If not please
+run this:</strong></p>
+<pre class="r"><code>vcf&lt;-read.table(file = &quot;SNPs_filtered.vcf&quot;) # Read vcf file
+vcf_header&lt;-as.matrix(read.table(&quot;SNPs_filtered.vcf&quot;,comment.char=&quot; &quot;,sep=&quot;\n&quot;))
+column_names&lt;-unlist(strsplit(vcf_header[45],&quot;\t&quot;)) # Isolate column names
+colnames(vcf)&lt;-column_names # Set column names</code></pre>
+<p><br></p>
+<p><strong>3. The first filtering step is to remove any SNPs that did
+not meet the threshold for any filter in the ‘VariantFiltration’ step of
+GATK in the previous exercise. This information is contained in column 7
+- “FILTER”:</strong></p>
+<pre class="r"><code>vcf&lt;-vcf[which(vcf[,7]==&quot;PASS&quot;),] # Choose only rows with a &quot;PASS&quot; </code></pre>
+<p><br></p>
+<p><strong>4. GATK will also sometimes call SNPs that overlap indels,
+these can be difficult to code so for this exercise we will remove
+these:</strong></p>
+<pre class="r"><code>vcf&lt;-vcf[-grep(&quot;*&quot;,vcf[,5],fixed = T),] # Remove any SNPs spanning indels</code></pre>
+<p><br></p>
+<p><strong>4. We have applied some filters to the VCF, now we want to
+assign a nucleotide for each sampled isolate at each position in the VCF
+(row) that has a read depth (coverage) over a given threshold. First we
+will create tables of just the GT and DP fields along with vectors of
+the reference and alternative alleles:</strong></p>
+<pre class="r"><code>GT&lt;-1 # Genotype position in format field
+DP&lt;-3 # Read depth position in format field
+Ref&lt;-vcf[,4] # Make vector of reference alleles
+Alt1&lt;-vcf[,5] # Make vector of alternative alleles, note there may be more than 1 separated by a comma.
+
+
+# Functions to split and extract the GT and DP elements
+extract_GT &lt;- function(x) {
+  element &lt;- sapply(strsplit(x, &quot;:&quot;), function(y) y[GT])
+  return(element)
+}
+extract_DP &lt;- function(x) {
+  element &lt;- sapply(strsplit(x, &quot;:&quot;), function(y) y[DP])
+  return(element)
+}
+
+# GT and DP tables
+GT_mat &lt;- data.frame(lapply(vcf[,c(10:12)], extract_GT)) # GT table
+DP_mat &lt;- data.frame(lapply(vcf[,c(10:12)], extract_DP)) # DP table
+DP_mat&lt;-apply(DP_mat, 2, as.numeric) # Make DP_mat numeric</code></pre>
+<p><br></p>
+<p><strong>5. We will then make assign the nucleotide to each position
+for each sample based on the genotype call at that site. We will iterate
+through the rows and assign reference or alternative alleles depending
+on the call, or an ambiguous call “N” for sites with no coverage or
+mixed calls:</strong></p>
+<p>For this example, mixed sites (e.g., 0/1, 0/2 etc) will be called as
+ambiguous but these may be coded differently. (Please read <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-018-4988-z">here</a>
+for more details)</p>
+<pre class="r"><code>mixed_calls&lt;-c(&quot;0/1&quot;,&quot;0/2&quot;,&quot;0/3&quot;,&quot;1/2&quot;,&quot;1/3&quot;,&quot;2/3&quot;,&quot;0|1&quot;,&quot;0|2&quot;,&quot;0|3&quot;,&quot;1|2&quot;,&quot;1|3&quot;,&quot;2|3&quot;)
+for (i in 1:nrow(GT_mat)){ # iterate through rows
+  GT_mat[i,which(GT_mat[i,]==&quot;./.&quot;)]&lt;- &quot;N&quot; # No coverage
+  GT_mat[i,which(GT_mat[i,] %in% mixed_calls)]&lt;- &quot;N&quot; # Mixed call
+  GT_mat[i,which(GT_mat[i,]==&quot;0/0&quot; | GT_mat[i,]==&quot;0|0&quot; )]&lt;- Ref[i] # Reference call
+  GT_mat[i,which(GT_mat[i,]==&quot;1/1&quot; | GT_mat[i,]==&quot;1|1&quot;)]&lt;- unlist(strsplit(Alt1[i],&quot;,&quot;))[1] # First alt allele
+  GT_mat[i,which(GT_mat[i,]==&quot;2/2&quot; | GT_mat[i,]==&quot;2|2&quot;)]&lt;- unlist(strsplit(Alt1[i],&quot;,&quot;))[2] # Second alte allele
+  GT_mat[i,which(GT_mat[i,]==&quot;3/3&quot; | GT_mat[i,]==&quot;3|3&quot;)]&lt;- unlist(strsplit(Alt1[i],&quot;,&quot;))[3] # Third alt allele
+}</code></pre>
+<p><br></p>
+<p><strong>6. We may want to mask sites with low read depth (&lt; 5
+reads covering that position) by assigning any call with less than 5
+depth (DP &lt; 5) as an ambiguous call “N”:</strong></p>
+<pre class="r"><code>GT_mat[DP_mat &lt; 5]&lt;-&quot;N&quot;</code></pre>
+<p><br></p>
+<p><strong>7. This will result in a table of nucleotides, with each row
+being the position in the genome and each column a different sampled
+isolate. We can also rename the rows as the positions in the VCF
+file:</strong></p>
+<pre class="r"><code>row.names(GT_mat)&lt;-vcf[,2]
+head(GT_mat)</code></pre>
+<pre><code>##      ERR190342 ERR212102 ERR221611
+## 237          G         A         G
+## 1849         C         C         N
+## 1977         G         G         G
+## 2097         C         A         C
+## 2532         T         C         T
+## 3446         C         C         T</code></pre>
+<p><br></p>
+<p><em>Extra activity: You may want to remove any rows that has no
+variation after filtering and assigning nucleotides (i.e., all samples
+have the same nucleotide at this position) to reduce the size of the
+fasta and speed up any downstream analysis. Write another function to
+remove rows of the GT_mat with no variation.</em></p>
+<p><br></p>
+<p><strong>8. We can convert our table to a fasta file by transposing it
+and transforming it into a list with each samples sequence a list
+element, then writing it to a fasta file with ‘seqinr’:</strong></p>
+<pre class="r"><code>seqinr::write.fasta(sequences = as.list(apply(t(GT_mat), 1, paste, collapse=&quot;&quot;)),
+            names = colnames(GT_mat),
+            file.out=&quot;TB.fasta&quot;,open=&quot;w&quot;)</code></pre>
+<p><em>You can view your FASTA file by opening this file in
+AliView</em></p>
+<p><br></p>
+<p><strong>9. Finally, we can calculate a pairwise SNP distance matrix
+from our nucleotide table (GT_mat) using the dist.dna function in ‘ape’.
+</strong></p>
+<pre class="r"><code>SNP_matrix&lt;-as.DNAbin(matrix(GT_mat,byrow = T)) # Convert the table to a DNAbin object via converting to a matrix
+names(SNP_matrix)&lt;-colnames(GT_mat) # Rename the samples using the column names
+dist.dna(SNP_matrix,model = &quot;N&quot;) # Calculate the pairwise distance as the number of sites that differ between the samples</code></pre>
+<pre><code>##           ERR190342 ERR212102
+## ERR212102      1672          
+## ERR221611       798      1706</code></pre>
+<p><br></p>
+<p>Next activity: <a href="Align_consensus.html">Align
+consensus sequences</a></p>
+<p><br></p>
+
+
+
+  
+		
+	</div>
+</body>
+
+
+  
+</html>
