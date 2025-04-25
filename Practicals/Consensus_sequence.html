@@ -93,7 +93,7 @@
   
   
   <h2>Filter variants and construct consensus
-sequence and pairwise SNP distance matrix</h2>
+sequence</h2>
 
 
 <p><br></p>
@@ -133,19 +133,15 @@ calculate the pairwise SNP distance.</strong></p>
 if (!require(seqinr)){
   install.packages(&quot;seqinr&quot;,repos = &quot;http://cran.us.r-project.org&quot;)
   library(seqinr)
-}</code></pre>
-<pre><code>## Loading required package: seqinr</code></pre>
-<pre class="r"><code>if (!require(ape)){
+}
+<p><br></p>
+if (!require(ape)){
   install.packages(&quot;ape&quot;,repos = &quot;http://cran.us.r-project.org&quot;)
   library(ape)
-}</code></pre>
-<pre><code>## Loading required package: ape</code></pre>
-<pre><code>## 
-## Attaching package: &#39;ape&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:seqinr&#39;:
-## 
-##     as.alignment, consensus</code></pre>
-<pre class="r"><code>options(stringsAsFactors = F)</code></pre>
+}
+<p><br></p>
+options(stringsAsFactors = F)
+</code></pre>
 <p><br></p>
 <p><strong>2. From the previous exercise you should have the VCF file in
 a data.frame called ‘vcf’ with the correct column names. If not please
@@ -245,7 +241,7 @@ element, then writing it to a fasta file with ‘seqinr’:</strong></p>
 AliView</em></p>
 <p><br></p>
 <p><strong>9. Finally, we can calculate a pairwise SNP distance matrix
-from our nucleotide table (GT_mat) using the dist.dna function in ‘ape’.
+from our nucleotide table (GT_mat) using the dist.dna function in ‘ape’. This will give us an idea of the genomic divergence between our samples.
 </strong></p>
 <pre class="r"><code>SNP_matrix&lt;-as.DNAbin(matrix(GT_mat,byrow = T)) # Convert the table to a DNAbin object via converting to a matrix
 names(SNP_matrix)&lt;-colnames(GT_mat) # Rename the samples using the column names
