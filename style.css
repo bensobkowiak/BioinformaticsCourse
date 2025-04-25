@@ -103,7 +103,7 @@ pre {
   display: block;
 }
 
-code {
+pre code {
   font-family: monospace;
   max-width: 100%;
   overflow-x: auto;
