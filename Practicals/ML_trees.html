@@ -97,7 +97,8 @@
 <p>For this exercise, you will be build a ML tree using the aligned and masked SARS-CoV-2 B.1.1.7 variant alignment we produced in the last exercise - <strong>"Taiwan_B117_aligned_masked.fasta"</strong>. Here we are using the full genome of SARS-CoV-2 but your input file could equally be any aligned sequence or partial sequence, for example an alignment of concatenated SNPs or an alignment of single or multiple genes in isolation. </p>
 <p><em>Keep in mind though that if you are using a partial genome sequence then branch lengths and substitution rates will be scaled to the length of the input sequence rather than the full genome.</em></p>
 <p>These ML trees can take time to build, depending on the number of threads you assign and the number and length of the sequences, each tree can take hours to complete. We have provided you the results in the data folder but try runnning these on your machines in your own time.</p>
-<p><strong>Building ML phylogenies with IQtree</strong></p>
+<br>
+	  <p><strong>Building ML phylogenies with IQtree</strong></p>
 <p>The ML tree will build the phylogeny using nucleotide substitution models, which are mathematical representations used in phylogenetics to describe the rates and patterns of substitutions among nucleotides over evolutionary time. We touched in these models in the lecture, but more information is available <a href="https://www.sciencedirect.com/topics/medicine-and-dentistry/substitution-model">here</a>.</p>
 <ol>
 <li>We first want to perform a model test in IQtree to determine the optimal substitution model for our sequence data. More information about the options for this can be found <a href="http://www.iqtree.org/doc/Tutorial">here</a>.</li>
