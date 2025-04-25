@@ -107,49 +107,39 @@
 <p><br></p>
 <ol>
 <li>First we can view the options in BWA by simply typing the following command in your terminal:</li>
-</ol>
 <pre><code class="language-bash">  bwa
 </code></pre>
 <p>This will display all options for BWA:</p>
 <p><img src="../Pictures/bwa1.jpeg" alt="Description" width="60%"/></p>
 <p><br></p>
-<ol>
 <li>Before mapping the reads, we need to first index our reference genome using the BWA ‘index’ command:</li>
-</ol>
 <pre><code class="language-bash">bwa index H37Rv.fasta
 </code></pre>
-<p>This will create five new index files associated with the H37Rv.fasta file. To view these, you can enter:</p>
+<li>This will create five new index files associated with the H37Rv.fasta file. To view these, you can enter:</li>
 <pre><code class="language-bash">ls H37Rv*
 </code></pre>
 <p><br></p>
-<ol>
-<li>
 <p>We can now align our paired-end reads for each sample to the reference. As you can see from the options shown in step 1, there are multiple options in BWA for alignment, with the main alignment algorithms being:</p>
-</li>
-<li>
-<p>aln/samse/sampe for BWA-backtrack (best for reads under 100bp)</p>
-</li>
+<ol>
+<li><p>aln/samse/sampe for BWA-backtrack (best for reads under 100bp)</li>
 <li>bwasw for BWA-SW (better for reads over 100bp)</li>
 <li>mem for BWA-MEM (best for reads over 100bp, faster and more accurate than bwasw)</li>
 </ol>
 <p>We will just be using the standard parameters for our alignments so will not add any other options but it is important to review and optimize these options for your data. Further information on these options can be found [here].(https://bio-bwa.sourceforge.net/bwa.shtml)</p>
-<p>The following command will align our paired reads to the H37Rv reference strain:</p>
+
+<li>The following command will align our paired reads to the H37Rv reference strain:</li>
 <pre><code class="language-bash">bwa mem H37Rv.fasta TB1_R1.fastq.gz TB1_R2.fastq.gz &gt; TB1.sam
 </code></pre>
 <p>This will produce a SAM file in the same folder, which we are calling TB1.sam. </p>
 <p><br></p>
-<ol>
 <li>We now need to convert the SAM file into its binary format – BAM file. This is the format that is required as an input for variant calling software (to be covered in tomorrow's activities) and visualization tools, as well as reducing the file size. We can use SAMtools ‘view’ to convert from SAM to BAM (the -b option tells the program to output a BAM file):</li>
-</ol>
 <pre><code class="language-bash">samtools view -b TB1.sam &gt; TB1.bam
 </code></pre>
 <p><em>Tip: You can now remove the SAM file now to free up space as we now have the alignment in BAM format:</em></p>
 <pre><code class="language-bash">rm TB1.sam 
 </code></pre>
 <p><br></p>
-<ol>
 <li>BAM files must be sorted and indexed by the chromosomes/contigs/scaffolds in your reference genome in order to efficiently display/access the data in the BAM file. We can do this with SAMtools:</li>
-</ol>
 <pre><code class="language-bash">samtools sort TB1.bam &gt; TB1_sorted.bam 
 </code></pre>
 <p><em>Tip: You can rename the sorted BAM file (which will also remove the unsorted BAM file):</em></p>
@@ -159,7 +149,6 @@
 <pre><code class="language-bash">samtools index TB1.bam 
 </code></pre>
 <p><br></p>
-<ol>
 <li>Finally, you can print summary statistics from the indexed BAM file using the SAMtools ‘flagstat’ option:</li>
 </ol>
 <pre><code class="language-bash">samtools flagstat TB1.bam 
