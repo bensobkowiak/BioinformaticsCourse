@@ -105,6 +105,8 @@ pre, code {
 
 code {
   font-family: monospace;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .content-image {
