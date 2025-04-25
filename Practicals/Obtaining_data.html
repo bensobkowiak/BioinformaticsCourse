@@ -158,9 +158,7 @@
 <li>
 <p>We want the raw sequence data for this sample in the FASTQ format, so we can select the "FASTQ" button. This will automatically start a download of the data.</p>
 </li>
-<li>
 <p><img src="../Pictures/SRA7.png" alt="Description1" width="70%"/></p>
-</li>
 </ol>
 <p>It is important to note that downloading the data from SRA will result in a single FASTQ file, even if the data are paired data that should be separated into 2 files (forward and reverse reads). To obtain the split FASTQ files, you will need to use the SRA-toolkit as descibed above, or download the data from ENA, as per the following exercise.</p>
 <p><br></p>
@@ -175,30 +173,22 @@
 <p>You will be sent to a search page (below). Type "ERP000436" into the search bar.</p>
 <p><img src="../Pictures/ENA1.jpeg" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>This will bring up the following page with all results from that ID. Click on the number under the "Study" section.</p>
 <p><img src="../Pictures/ENA2.jpeg" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
-<li>
+
 <p>The project details will be shown as follows:</p>
 <p><img src="../Pictures/ENA3.jpeg" alt="Description1" width="70%"/></p>
-</li>
-</ol>
 <p><br></p>
 <ol>
 <li>
 <p>Scroll down and you will find the individual samples stored as part of the study. In this project there are 386 <em>M. tuberculosis</em> samples.</p>
 <p><img src="../Pictures/ENA4.jpeg" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>Scroll to the right, you will see the options for download. In this study, both paired-end raw sequencing (FASTQ) files are available and an aligned genome file per sample. More on these formats later. These files are available to download through FTP, but some data are available through SRA (Sequence Read Archive) format, a specialized format for NGS data. This is where you can click on a file and download it.</p>
 <p><img src="../Pictures/ENA5.jpeg" alt="Description1" width="70%"/></p>
@@ -220,58 +210,42 @@ wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR036/ERR036185/ERR036185_2.fastq.g
 <p>Click the link to GISAID above. You will be directed to the following page:</p>
 <p><img src="../Pictures/GISAID1.jpeg" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>Login by clicking "login" in the top right, you will be directed here:</p>
 <p><img src="../Pictures/GISAID2.jpeg" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>After logging in, you will reach this page. As you can see, there are multiple databases in GISAID. Here, we will look at downloading SARS-CoV-2 assembled genomes. These sequence files are found in the "EpiCoV" section, and sequences can be found through the "Search" option:</p>
 <p><img src="../Pictures/GISAID3.jpeg" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>You will be directed here. As you can see there are over 17 million sequences that have been submitted:</p>
 <p><img src="../Pictures/GISAID4.png" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>We can choose which sequences to download using the options in the boxes on the page, including filtering by location and lineage. Let's type "Taiwan" into the "Location" box:</p>
 <p><img src="../Pictures/GISAID5.png" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>There are over 6,000 SARS-CoV-2 sequences from Taiwan that have been deposited. We can further filter the data by variant. Lets type "B.1.1.7" into the "Lineage" box:</p>
 <p><img src="../Pictures/GISAID6.png" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>This takes us to 251 SARS-CoV-2 B.1.1.7 sequences from Taiwan that have been deposited on GISAID. We can also filter to only include complete, high coverage geomes with a complete collection date by selecting the boxes on the right:</p>
 <p><img src="../Pictures/GISAID7.png" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>Now we have 246 sequences. Let's download these by selecting all by ticking the box above the sequences on the left, and clicking "Download" at the bottom right:</p>
 <p><img src="../Pictures/GISAID8.png" alt="Description1" width="70%"/></p>
 </li>
-</ol>
 <p><br></p>
-<ol>
 <li>
 <p>This will now give you the option of which data to download. For the sequence data select "Nucleotide Sequences (FASTA)". Another important dataset is the "Patient status metadata", which will download all metadata associated with the sequences such as collection dates.</p>
 <p><img src="../Pictures/GISAID9.png" alt="Description1" width="70%"/></p>
