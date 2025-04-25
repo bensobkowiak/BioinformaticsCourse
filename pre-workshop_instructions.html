@@ -102,7 +102,6 @@ conda activate bioinfo-workshop
 
 <ol>
   <li>Open PowerShell as Administrator and run:</li>
-</ol>
 
 <pre><code>wsl --install
 </code></pre>
@@ -114,25 +113,26 @@ conda activate bioinfo-workshop
   <li>Set up necessary components</li>
 </ul>
 
-<p>Restart your computer when prompted.</p>
+<li>Restart your computer when prompted.</li>
 
 <h4>Set up Ubuntu in WSL</h4>
 
-<p>
+<li>
 After reboot, Ubuntu should open automatically. If not, open the WSL app manually. Wait for installation to complete, then choose a username and password when prompted. This opens a Linux terminal (Ubuntu shell).
-</p>
+</li>
 
 <h4>Install Miniconda inside WSL</h4>
 
+<li>Enter the following commands to install Miniconda in WSL </li>
 <pre><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
 bash miniconda.sh
 </code></pre>
 
-<p>Accept the license agreement and confirm the default install location (e.g., /home/yourname/miniconda).</p>
+<li>Accept the license agreement and confirm the default install location (e.g., /home/yourname/miniconda).</li>
 
 <p>You may get another prompt after this. Please type "no".</p>
 
-<p>When installation finishes, close and reopen WSL, or run:</p>
+<li>When installation finishes, close and reopen WSL, or run:</li>
 
 <pre><code>source ~/.bashrc
 </code></pre>
@@ -142,22 +142,23 @@ bash miniconda.sh
 <pre><code>export PATH=~/miniconda3/bin:$PATH
 </code></pre>
 
-<p>Check that Conda is available:</p>
+<li>Check that Conda is available:</li>
 
 <pre><code>conda --version
 </code></pre>
 
 <h4>Move Setup Scripts Into WSL</h4>
 
-<p>Place the files (Install_programs.sh, workshop_env.yml, install_r_github.R) in a folder on Windows, e.g., D:/Workshop/.</p>
+<li>Place the files (Install_programs.sh, workshop_env.yml, install_r_github.R) in a folder on Windows, e.g., D:/Workshop/.</li>
 
-<p>In the Ubuntu terminal, navigate to that folder:</p>
+<li>In the Ubuntu terminal, navigate to that folder:</li>
 
 <pre><code>cd D:/Workshop/
 </code></pre>
 
 <h4>Run the install script for Windows:</h4>
 
+<li>Enter the following command to set up a Conda environment and install programs usign Conda:</li>
 <pre><code>bash Install_programs_windows.sh
 </code></pre>
 
@@ -165,15 +166,15 @@ bash miniconda.sh
 After up to 30 minutes, you should have a Conda environment called bioinfo-workshop set up and ready.
 </p>
 
-<p>To activate it:</p>
+<li>To activate it type:</li>
 
 <pre><code>
   source ~/miniconda3/etc/profile.d/conda.sh 
   conda activate bioinfo-workshop
 </code></pre>
-
+</ol>
+    
 <br>
-
 <h3>All users</h3>
 
 <p>These programs must be installed directly from their websites:</p>
