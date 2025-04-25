@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Obtaining Data</title>
+  <title>TreeTime</title>
   <link rel="stylesheet" href="../style.css">
 </head>
 
@@ -108,7 +108,8 @@
 </ul>
 <p><br></p>
 <h3>To run TreeTime we will use the following command:</h3>
-<pre><code class="language-bash">treetime --tree Taiwan_B117_MLtree.treefile --dates Taiwan_B117_dates.csv --aln Taiwan_B117_aligned_masked.fasta --outdir Taiwan_B117_treetime --clock-rate 0.0008 --clock-std-dev 0.0004 --reroot MN908947.3 --coalescent skyline
+<pre><code class="language-bash">treetime --tree Taiwan_B117_MLtree.treefile --dates Taiwan_B117_dates.csv --aln Taiwan_B117_aligned_masked.fasta \
+	--outdir Taiwan_B117_treetime --clock-rate 0.0008 --clock-std-dev 0.0004 --reroot MN908947.3 --coalescent skyline
 </code></pre>
 <p><br></p>
 <p>Where the parameters are as follows: </p>
@@ -159,13 +160,13 @@
 <h3>Explore the output from TreeTime, there will be 11 files in the "Taiwan_B117_treetime" folder:</h3>
 <ol>
 <li>Open "ancestral_sequences.fasta":</li>
-<p><em>Discuss what we think these sequences are, why are there more sequences (rows) than tips in the tree? <br></em></p>
-<p>The tree files are saved in the two .nexus files, as well as a plotted tree in PDF format. In FigTree, or using any other tree viewing software, you can open the two .nexus files: <br></p>
+<p><em>Discuss what you think these sequences are, why are there more sequences (rows) than tips in the tree? <br></em></p>
 
-<li><em>What is the difference between these trees? <br></em></li>
-<p>Finally, open the "skyline.pdf" file: <br></p>
+<li>The tree files are saved in the two .nexus files, as well as a plotted tree in PDF format. In FigTree, or using any other tree viewing software, open the two .nexus files: <br></li>
+<p><em>What is the difference between these trees? <br></em></p>
 
-<li><em>WHat does this plot represent?<br></em></li>
+<li>Finally, open the "skyline.pdf" file: <br></li>
+<p><em>What does this plot represent?<br></em></p>
 </ol>
 <p>More information on the effective population size can be found <a href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/effective-population-size">here</a></p>
 <p><br></p>
