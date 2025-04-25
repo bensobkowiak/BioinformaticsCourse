@@ -109,22 +109,20 @@ pre code {
   overflow-x: auto;
 }
 
-.copy-btn {
-  position: absolute;
-  top: 0.5em;
-  right: 0.5em;
-  background-color: #008cba;
-  color: white;
+.copy-line-btn {
+  background: none;
   border: none;
-  padding: 0.4em 0.8em;
-  font-size: 0.8em;
-  border-radius: 3px;
+  color: #008cba;
   cursor: pointer;
-  z-index: 10;
+  font-size: 0.8em;
+  opacity: 0;
+  transition: opacity 0.2s;
+  position: absolute;
+  right: 0;
 }
 
-.copy-btn:active {
-  transform: scale(0.95);
+.code-line:hover .copy-line-btn {
+  opacity: 1;
 }
 
 .content-image {
