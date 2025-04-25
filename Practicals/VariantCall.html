@@ -117,7 +117,7 @@ gatk CreateSequenceDictionary -R H37Rv.fasta
 </code></pre>
 <p><br></p>
 <li>The first command when calling variants with GATK is to use 'HaplotypeCaller' to generate a per-sample intermediate GVCF, which is not to be used in final analysis). This GVCF is a file with raw, unfiltered SNP and Indel calls for each sample against the reference.</li>
-<pre><code class="language-bash">gatk HaplotypeCaller --native-pair-hmm-threads 2 -R H37Rv.fasta -I ERR221611.bam --max-reads-per-alignment-start 0 --emit-ref-confidence GVCF -O ERR221611.vcf
+<pre><code class="language-bash">gatk HaplotypeCaller --native-pair-hmm-threads 2 -R H37Rv.fasta -I ERR221611.bam --max-reads-per-alignment-start 0 \<br>--emit-ref-confidence GVCF -O ERR221611.vcf
 </code></pre>
 <table>
 <thead>
@@ -221,9 +221,9 @@ gatk SelectVariants -V All_variants.vcf -select-type INDEL -O INDELs.vcf
 </code></pre>
 <p><br></p>
 <li>We will then use "VariantFiltration" to add  our SNPs and Indels using the following commands (Note, this step will not actually remove any variants but will instead label variants that have not met the given filter thresholds in the VCF file):</li>
-<pre><code class="language-bash">gatk VariantFiltration -V SNPs.vcf -filter &quot;QD &lt; 2.0&quot; --filter-name &quot;QD2&quot; -filter &quot;QUAL &lt; 30.0&quot; --filter-name &quot;QUAL30&quot; -filter &quot;SOR &gt; 3.0&quot; --filter-name &quot;SOR3&quot; -filter &quot;FS &gt; 60.0&quot; --filter-name &quot;FS60&quot; -filter &quot;MQ &lt; 40.0&quot; --filter-name &quot;MQ40&quot; -O SNPs_filtered.vcf
+<pre><code class="language-bash">gatk VariantFiltration -V SNPs.vcf -filter &quot;QD &lt; 2.0&quot; \<br>--filter-name &quot;QD2&quot; -filter &quot;QUAL &lt; 30.0&quot; --filter-name &quot;QUAL30&quot; -filter &quot;SOR &gt; 3.0&quot; \<br>--filter-name &quot;SOR3&quot; -filter &quot;FS &gt; 60.0&quot; --filter-name &quot;FS60&quot; \<br>-filter &quot;MQ &lt; 40.0&quot; --filter-name &quot;MQ40&quot; -O SNPs_filtered.vcf
 </code></pre>
-<pre><code class="language-bash">gatk VariantFiltration -V INDELS.vcf -filter &quot;QD &lt; 2.0&quot; --filter-name &quot;QD2&quot; -filter &quot;QUAL &lt; 30.0&quot; --filter-name &quot;QUAL30&quot; -filter &quot;FS &gt; 200.0&quot; --filter-name &quot;FS200&quot; -O INDELS_filtered.vcf
+<pre><code class="language-bash">gatk VariantFiltration -V INDELS.vcf -filter &quot;QD &lt; 2.0&quot; \<br>--filter-name &quot;QD2&quot; -filter &quot;QUAL &lt; 30.0&quot; --filter-name &quot;QUAL30&quot; -filter &quot;FS &gt; 200.0&quot; \<br>--filter-name &quot;FS200&quot; -O INDELS_filtered.vcf
 </code></pre>
 <table>
 <thead>
