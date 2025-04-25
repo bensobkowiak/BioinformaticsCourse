@@ -104,15 +104,12 @@
 <p><br></p>
 <ol>
 <li>First we can view the options in Unicycler by simply typing the following command in your terminal:</li>
-</ol>
 <pre><code class="language-bash">unicycler
 </code></pre>
 <p>This will display all options for Unicycler:</p>
 <p><img src="../Pictures/Unicycler1.jpeg" alt="Description" width="60%"/></p>
 <p><br></p>
-<ol>
 <li>We can then run the main command for Unicycler. This may take a little while to complete as it will test different k-mer lengths (see Lecture 1 for k-mer definition) to produce the optimal assembly. Perhaps run this command over the lunch break:</li>
-</ol>
 <pre><code class="language-bash">unicycler -1 Kleb1_R1.fastq.gz -2 Kleb1_R2.fastq.gz --keep 0 -t 2 -o Kleb1
 </code></pre>
 <p>Where the options specified are: </p>
@@ -147,27 +144,21 @@
 </tbody>
 </table>
 <p>We will now have the de novo assembled contigs using the optimal k-mer length that Unicycler determines using some quality metrics (outlined on the Unicycler Github). These will be contained in the /Kleb1/ folder.</p>
-<ol>
 <li>Navigate to this folder and view the files:</li>
-</ol>
 <pre><code class="language-bash">cd Kleb1/
 ls #this is the command to view files
 </code></pre>
 <p>These files include a FASTA file with the assembled contigs (assembly.fasta)</p>
-<ol>
 <li>View the fasta file in AliView:</li>
-</ol>
 <p><img src="../Pictures/denovo1.jpeg" alt="Description" width="60%"/></p>
 <h4>Discuss the assembled contigs, do you think we have reconstructed the complete genome?</h4>
 <p>Instead of inspecting the files manually, we can use software such as [QUAST}(https://github.com/ablab/quast) to calculate different metrics to assess our assemblies.</p>
-<ol>
 <li>Run QUAST with the following command to calculate assembly metrics and output the new files to a folder called QUAST/:</li>
-</ol>
+
 <pre><code class="language-bash">quast -o QUAST assembly.fasta
 </code></pre>
 <p>This will produce files in multiple formats that show the assembly metrics in the Kleb1/QUAST/ folder. We will view the 'report.txt; file.
 <br></p>
-<ol>
 <li>Either open the report.txt file in your text editor, or view it in Terminal or WSL using the following command:</li>
 </ol>
 <pre><code class="language-bash">cd QUAST/
