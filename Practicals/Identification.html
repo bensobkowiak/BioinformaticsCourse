@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Transmission</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (BactDating)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+<h2>Identification of Lineages, Sequence Types and Resistance</h2>
+<p>Profiling bacteria and viruses from sequencing data is essential for understanding the identity, diversity, and dynamics of infectious disease populations.</p>
+<p>Typically this can involve multiple analytical layers, from broad identification of the organisms present in a sample (which can also detect potential contamination) to detailed characterization of sub-species and lineages or serotypes. </p>
+<p>Tools like <a href="https://github.com/DerrickWood/kraken2">Kraken</a> can perform the first step: classifying sequencing reads by comparing them against large reference databases using k-mer-based algorithms. This initial, high-throughput profiling allows us to quickly determine the presence of bacteria, viruses, and other microbes in a sample. These general classifiers are essential for metagenomic surveillance and assessing the microbial composition of clinical or environmental samples. As the database used by Kraken is very large, we will not be running through this analysis here, but there is a nice tutorial found <a href="https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown">here</a> if you would like to use this tool.</p>
+<p>After the taxonomic classification, more specialized tools can be used to provide detailed species- or strain-level information. For example, TB-Profiler characterizes Mycobacterium tuberculosis strains and predicts drug resistance mutations, while Kleborate performs similar tasks for Klebsiella pneumoniae, assessing virulence and resistance markers. Other specialized software are available for important pathogenic bacteria, such as Mykrobe and Pathogenwatch. Additionally, platforms like Nextstrain focus on the phylogenetic and evolutionary dynamics of pathogens, enabling real-time tracking of how bacterial and viral lineages spread and diversify globally. </p>
+<p>Here, we will use two of these specialised tools to profile some of our samples.</p>
+<p>The data used for this exercise will be:</p>
+<ul>
+<li>
+<p><strong>Test3_R1.fastq.gz</strong> and <strong>Test3_R2.fastq.gz</strong> – Paired-end 250bp sequence data from <em>Mycobacterium tuberculosis</em>, collected from sputum and cultured before DNA library preparation.</p>
+</li>
+<li>
+<p><strong>Test5_R1.fastq.gz</strong> and <strong>Test5_R2.fastq.gz</strong> – Paired-end 150bp sequence data from <em>Mycobacterium tuberculosis</em>, collected from Peru.</p>
+</li>
+<li>
+<p><strong>assembly.fasta</strong> – The <em>de novo</em> assembled <em>Klebsiella pneumoniae</em> sample, collected in Taiwan, from practical session 1.</p>
+</li>
+</ul>
+<p><br></p>
+<h3>Lineage and antimicrobial resistance calling of <em>Mycobacterium tuberculosis</em>:</h3>
+<p>Here, we will use TB-Profiler which is a specialised bioinformatics tool that analyzes Mycobacterium tuberculosis sequencing data to predict drug resistance and lineage. It rapidly identifies resistance-associated and lineage-specific mutations from raw reads or alignments (in the BAM format) by comparing variation in assemblies to a database of known mutations.</p>
+<h4>Use the following code to profile the Test3 M.tb sample using the basic TB-Profiler commands:</h4>
+<pre><code class="language-bash">tb-profiler profile -1 Test3_R1.fastq.gz -2 Test3_R2.fastq.gz --platform illumina --prefix Test3 --threads 2
+</code></pre>
+<p>Where the options specifed are:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-1</td>
+<td>The FASTQ file of forward reads of paired-end sequence data or the only FASTQ for single-end sequence data.</td>
+</tr>
+<tr>
+<td>-2</td>
+<td>The FASTQ file of reverse reads of paired-end sequence data.</td>
+</tr>
+<tr>
+<td>--platform</td>
+<td>The sequencing platform used (Illumina, ONT or PacBio)</td>
+</tr>
+<tr>
+<td>--prefix</td>
+<td>The prefix for output files.</td>
+</tr>
+<tr>
+<td>--threads</td>
+<td>The FASTQ file of forward reads of paired-end sequence data or the only FASTQ for single-end sequence data.</td>
+</tr>
+</tbody>
+</table>
+<h4><em>Exercise: Re-run TB-Profiler with the sequencing data for sample Test5.</em></h4>
+<p>The files produced by TB-profiler are in the JSON format and saved in a folder called "results".</p>
+<h4>We can collate the profiling results in the JSON format for all samples into a readable .txt file using the following command:</h4>
+<pre><code class="language-bash">tb-profiler collate
+</code></pre>
+<h4>Open the resulting text file (it will be called tbprofiler.txt). Which lineages and sub-lineages do the TB samples belong? Is there are drug resistance predicted in the samples?</h4>
+<p><br></p>
+<h3>Sequence typing and antimicrobial resistance profiling of <em>Klebsiella pneumoniae</em>:</h3>
+<p>Kleborate can be used to profile <em>Klebsiella</em> species, particularly <em>Klebsiella pneumoniae</em>, from whole-genome sequencing data. It identifies key features such as species assignment, antimicrobial resistance genes, virulence loci, and sequence types. Escherichia species can also be profiled with Kleborate.</p>
+<p>Unlike TB-Profiler, Kleborate will require an assembled genome in the FASTA format as the input. </p>
+<p>We will use the <em>de novo</em> assembly from practical session 1 to run this analysis, which should be found in the Kleb1 folder. </p>
+<h4>Kleborate can be run using the following command:</h4>
+<pre><code class="language-bash">cd Kleb1/ ## Navigate to the assembly
+
+kleborate -a assembly.fasta -o Kleb1_kleborate -p kpsc --trim_headers 
+</code></pre>
+<p>Where the options specifed are:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-a</td>
+<td>FASTA consensus sequence from assembly.</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>The name of the directory for saving output files.</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>Specifies the preset modules to run (kpsc = <em>Klebsiella pnuemoniae</em> species complex)</td>
+</tr>
+<tr>
+<td>--trim_headers</td>
+<td>Trim module names from column headers in the output.</td>
+</tr>
+</tbody>
+</table>
+<h4>Open the output file in the Kleb1_kleborate/ folder. What sequence type is our sample? Do we have any drug resistance predicted?</h4>
+<p><br></p>
+<p>Next acitvity: <a href="Transmission.html">Transmission Reconstruction</a></p>
+		
+	</div>
+</body>
+
+
+  
+</html>
