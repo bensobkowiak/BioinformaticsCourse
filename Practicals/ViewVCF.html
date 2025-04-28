@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Transmission</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (BactDating)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+<p><strong>4. Read the VCF file in to R as a table.</strong></p>
+<pre class="r"><code>vcf&lt;-read.table(file = &quot;SNPs_filtered.vcf&quot;) # Read vcf file
+head(vcf)</code></pre>
+<pre><code>##            V1   V2 V3 V4 V5       V6   V7
+## 1 NC_000962.3  237  .  G  A  5105.14 PASS
+## 2 NC_000962.3 1849  .  C  A   994.29 PASS
+## 3 NC_000962.3 1977  .  A  G 11429.73 PASS
+## 4 NC_000962.3 2097  .  C  A  6843.14 PASS
+## 5 NC_000962.3 2532  .  T  C  5037.14 PASS
+## 6 NC_000962.3 3446  .  C  T  2641.14 PASS
+##                                                                                                                                                                     V8
+## 1                                                                  AC=2;AF=0.333;AN=6;DP=269;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=25.36;SOR=0.707
+## 2     AC=1;AF=0.167;AN=6;BaseQRankSum=0.335;DP=231;ExcessHet=0.0000;FS=30.787;MLEAC=1;MLEAF=0.167;MQ=60.00;MQRankSum=0.00;QD=30.13;ReadPosRankSum=-1.098e+00;SOR=2.292
+## 3                                                                    AC=6;AF=1.00;AN=6;DP=312;ExcessHet=0.0000;FS=0.000;MLEAC=6;MLEAF=1.00;MQ=60.00;QD=28.73;SOR=0.783
+## 4                                                                  AC=2;AF=0.333;AN=6;DP=331;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=34.91;SOR=0.714
+## 5                                                                  AC=2;AF=0.333;AN=6;DP=282;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=30.97;SOR=0.707
+## 6 AC=2;AF=0.333;AN=6;BaseQRankSum=-5.530e-01;DP=244;ExcessHet=0.0000;FS=8.925;MLEAC=2;MLEAF=0.333;MQ=60.00;MQRankSum=0.00;QD=34.75;ReadPosRankSum=-2.330e-01;SOR=0.054
+##               V9                       V10                         V11
+## 1 GT:AD:DP:GQ:PL 0/0:69,0:69:99:0,120,1800 1/1:0,145:145:99:5122,435,0
+## 2 GT:AD:DP:GQ:PL  0/0:80,0:80:53:0,53,2788 0/0:115,0:115:99:0,120,1800
+## 3 GT:AD:DP:GQ:PL 1/1:0,90:90:99:3555,270,0 1/1:0,133:133:99:4862,399,0
+## 4 GT:AD:DP:GQ:PL 0/0:76,0:76:99:0,120,1800 1/1:0,196:196:99:6860,587,0
+## 5 GT:AD:DP:GQ:PL 0/0:76,0:76:99:0,120,1800 1/1:0,139:139:99:5054,418,0
+## 6 GT:AD:DP:GQ:PL 0/0:67,0:67:99:0,120,1800   0/0:95,0:95:99:0,114,1800
+##                         V12
+## 1 0/0:47,0:47:99:0,104,1800
+## 2 0/1:6,27:33:99:1003,0,147
+## 3 1/1:0,78:78:99:3026,234,0
+## 4 0/0:57,0:57:99:0,100,1800
+## 5 0/0:57,0:57:99:0,100,1800
+## 6  1/1:4,72:76:63:2658,63,0</code></pre>
+<p><br></p>
+<p><strong>5. Opening the VCF as a table in this will cut the header of
+the VCF (any line with a # at the beginning) and open the file from line
+39 onwards. We can open the full file complete with header to extract
+the column names at line 45:</strong></p>
+<pre class="r"><code>vcf_header&lt;-as.matrix(read.table(&quot;SNPs_filtered.vcf&quot;,comment.char=&quot; &quot;,sep=&quot;\n&quot;))
+column_names&lt;-unlist(strsplit(vcf_header[45],&quot;\t&quot;))
+colnames(vcf)&lt;-column_names
+head(vcf)</code></pre>
+<pre><code>##        #CHROM  POS ID REF ALT     QUAL FILTER
+## 1 NC_000962.3  237  .   G   A  5105.14   PASS
+## 2 NC_000962.3 1849  .   C   A   994.29   PASS
+## 3 NC_000962.3 1977  .   A   G 11429.73   PASS
+## 4 NC_000962.3 2097  .   C   A  6843.14   PASS
+## 5 NC_000962.3 2532  .   T   C  5037.14   PASS
+## 6 NC_000962.3 3446  .   C   T  2641.14   PASS
+##                                                                                                                                                                   INFO
+## 1                                                                  AC=2;AF=0.333;AN=6;DP=269;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=25.36;SOR=0.707
+## 2     AC=1;AF=0.167;AN=6;BaseQRankSum=0.335;DP=231;ExcessHet=0.0000;FS=30.787;MLEAC=1;MLEAF=0.167;MQ=60.00;MQRankSum=0.00;QD=30.13;ReadPosRankSum=-1.098e+00;SOR=2.292
+## 3                                                                    AC=6;AF=1.00;AN=6;DP=312;ExcessHet=0.0000;FS=0.000;MLEAC=6;MLEAF=1.00;MQ=60.00;QD=28.73;SOR=0.783
+## 4                                                                  AC=2;AF=0.333;AN=6;DP=331;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=34.91;SOR=0.714
+## 5                                                                  AC=2;AF=0.333;AN=6;DP=282;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=30.97;SOR=0.707
+## 6 AC=2;AF=0.333;AN=6;BaseQRankSum=-5.530e-01;DP=244;ExcessHet=0.0000;FS=8.925;MLEAC=2;MLEAF=0.333;MQ=60.00;MQRankSum=0.00;QD=34.75;ReadPosRankSum=-2.330e-01;SOR=0.054
+##           FORMAT                 ERR190342                   ERR212102
+## 1 GT:AD:DP:GQ:PL 0/0:69,0:69:99:0,120,1800 1/1:0,145:145:99:5122,435,0
+## 2 GT:AD:DP:GQ:PL  0/0:80,0:80:53:0,53,2788 0/0:115,0:115:99:0,120,1800
+## 3 GT:AD:DP:GQ:PL 1/1:0,90:90:99:3555,270,0 1/1:0,133:133:99:4862,399,0
+## 4 GT:AD:DP:GQ:PL 0/0:76,0:76:99:0,120,1800 1/1:0,196:196:99:6860,587,0
+## 5 GT:AD:DP:GQ:PL 0/0:76,0:76:99:0,120,1800 1/1:0,139:139:99:5054,418,0
+## 6 GT:AD:DP:GQ:PL 0/0:67,0:67:99:0,120,1800   0/0:95,0:95:99:0,114,1800
+##                   ERR221611
+## 1 0/0:47,0:47:99:0,104,1800
+## 2 0/1:6,27:33:99:1003,0,147
+## 3 1/1:0,78:78:99:3026,234,0
+## 4 0/0:57,0:57:99:0,100,1800
+## 5 0/0:57,0:57:99:0,100,1800
+## 6  1/1:4,72:76:63:2658,63,0</code></pre>
+<ul>
+<li><p>In all VCF files, the number of columns will be 9 + the number of
+samples. In our case it will be 9 + 3 samples, so 12 columns
+total.</p></li>
+<li><p>The 9 columns before the sample columns represent the following
+fields each variant (row):</p></li>
+</ul>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="92%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>#CHROM</td>
+<td>Chromosome or genome name.</td>
+</tr>
+<tr class="even">
+<td>#POS</td>
+<td>The position in the reference sequence.</td>
+</tr>
+<tr class="odd">
+<td>#ID</td>
+<td>Semi-colon separated list of SNP identifiers if the site is found in
+a database.</td>
+</tr>
+<tr class="even">
+<td>#REF</td>
+<td>Reference nucleotide base (SNP) or sequence (INDEL).</td>
+</tr>
+<tr class="odd">
+<td>#ALT</td>
+<td>Alternative nucleotide base (SNP) or sequence (INDEL). Where
+multiple alleles are present, these are separated by a comma.</td>
+</tr>
+<tr class="even">
+<td>#QUAL</td>
+<td>Total quality score for the site.</td>
+</tr>
+<tr class="odd">
+<td>#FILTER</td>
+<td>The filter flags used in the VariantFiltration step, if all
+thresholds are met this will show “PASS”</td>
+</tr>
+<tr class="even">
+<td>#INFO</td>
+<td>Semi-colon separated site information, including total depth, allele
+count, etc. as a total of all samples.</td>
+</tr>
+<tr class="odd">
+<td>#FORMAT</td>
+<td>Format of the variant call field for each sample column.</td>
+</tr>
+</tbody>
+</table>
+<p>The “FORMAT” field is important as it shows the format of the code
+used to determine the variant call for each sample at each position
+(row). This code is a semi-colon separated string separating the flags
+(there can be other flags can be added):</p>
+<p><br></p>
+<p>In our VCF file, for “FORMAT” is <strong>GT:PL:DP:AD</strong>, which
+corresponds to:</p>
+<table>
+<colgroup>
+<col width="6%" />
+<col width="93%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GT</td>
+<td>The genotype call: <br> <code>./.</code> = no call (likely to
+aligned sequence at this site) <br> <code>0/0</code> = reference call
+(column 4) <br>
+<code>1/1 or 1\|1 (or 2/2 or 2\|2 etc. if multiple alternative alleles present)</code>
+= alternative call (column 5) <br>
+<code>0/1 or 0\|1 (or 0/2, 1/2, 0|\3 etc.)</code> = a mix of reference
+and alternative call. <br> Note: If you call the sample as haploid, you
+will only get 0 or 1 genotype calls.</td>
+</tr>
+<tr class="even">
+<td>PL</td>
+<td>The phred-scaled (quality) genotype likelihood, separated by a comma
+for reference call, mixed call, or alternative call. 0 is most likely,
+255 least likely.</td>
+</tr>
+<tr class="odd">
+<td>DP</td>
+<td>Total read depth at the site.</td>
+</tr>
+<tr class="even">
+<td>AD</td>
+<td>Comma-separated read depth per reference and alternative(s) base
+calls.</td>
+</tr>
+</tbody>
+</table>
+<p>*Note: the genotype call will be separated by a slash “/” or a pipe
+“|” depending on whether or not it is phased (indicating which
+chromosome the alleles are on). This is important in diploid organisms
+but for haploid, we can treat the calls as the same.</p>
+<p><br></p>
+<p><strong>6. Let’s just view the sample columns with the reference and
+alternative allele calls:</strong></p>
+<pre class="r"><code>head(vcf[,c(4,5,10:12)])</code></pre>
+<pre><code>##   REF ALT                 ERR190342                   ERR212102
+## 1   G   A 0/0:69,0:69:99:0,120,1800 1/1:0,145:145:99:5122,435,0
+## 2   C   A  0/0:80,0:80:53:0,53,2788 0/0:115,0:115:99:0,120,1800
+## 3   A   G 1/1:0,90:90:99:3555,270,0 1/1:0,133:133:99:4862,399,0
+## 4   C   A 0/0:76,0:76:99:0,120,1800 1/1:0,196:196:99:6860,587,0
+## 5   T   C 0/0:76,0:76:99:0,120,1800 1/1:0,139:139:99:5054,418,0
+## 6   C   T 0/0:67,0:67:99:0,120,1800   0/0:95,0:95:99:0,114,1800
+##                   ERR221611
+## 1 0/0:47,0:47:99:0,104,1800
+## 2 0/1:6,27:33:99:1003,0,147
+## 3 1/1:0,78:78:99:3026,234,0
+## 4 0/0:57,0:57:99:0,100,1800
+## 5 0/0:57,0:57:99:0,100,1800
+## 6  1/1:4,72:76:63:2658,63,0</code></pre>
+
+
+		
+	</div>
+</body>
+
+
+  
+</html>
