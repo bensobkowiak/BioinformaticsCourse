@@ -91,39 +91,12 @@
 <body>
   <div class="content">
   
-<p><strong>4. Read the VCF file in to R as a table.</strong></p>
+<p><strong>1. Read the VCF file in to R as a table.</strong></p>
 <pre class="r"><code>vcf&lt;-read.table(file = &quot;SNPs_filtered.vcf&quot;) # Read vcf file
 head(vcf)</code></pre>
-<pre><code>##            V1   V2 V3 V4 V5       V6   V7
-## 1 NC_000962.3  237  .  G  A  5105.14 PASS
-## 2 NC_000962.3 1849  .  C  A   994.29 PASS
-## 3 NC_000962.3 1977  .  A  G 11429.73 PASS
-## 4 NC_000962.3 2097  .  C  A  6843.14 PASS
-## 5 NC_000962.3 2532  .  T  C  5037.14 PASS
-## 6 NC_000962.3 3446  .  C  T  2641.14 PASS
-##                                                                                                                                                                     V8
-## 1                                                                  AC=2;AF=0.333;AN=6;DP=269;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=25.36;SOR=0.707
-## 2     AC=1;AF=0.167;AN=6;BaseQRankSum=0.335;DP=231;ExcessHet=0.0000;FS=30.787;MLEAC=1;MLEAF=0.167;MQ=60.00;MQRankSum=0.00;QD=30.13;ReadPosRankSum=-1.098e+00;SOR=2.292
-## 3                                                                    AC=6;AF=1.00;AN=6;DP=312;ExcessHet=0.0000;FS=0.000;MLEAC=6;MLEAF=1.00;MQ=60.00;QD=28.73;SOR=0.783
-## 4                                                                  AC=2;AF=0.333;AN=6;DP=331;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=34.91;SOR=0.714
-## 5                                                                  AC=2;AF=0.333;AN=6;DP=282;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=30.97;SOR=0.707
-## 6 AC=2;AF=0.333;AN=6;BaseQRankSum=-5.530e-01;DP=244;ExcessHet=0.0000;FS=8.925;MLEAC=2;MLEAF=0.333;MQ=60.00;MQRankSum=0.00;QD=34.75;ReadPosRankSum=-2.330e-01;SOR=0.054
-##               V9                       V10                         V11
-## 1 GT:AD:DP:GQ:PL 0/0:69,0:69:99:0,120,1800 1/1:0,145:145:99:5122,435,0
-## 2 GT:AD:DP:GQ:PL  0/0:80,0:80:53:0,53,2788 0/0:115,0:115:99:0,120,1800
-## 3 GT:AD:DP:GQ:PL 1/1:0,90:90:99:3555,270,0 1/1:0,133:133:99:4862,399,0
-## 4 GT:AD:DP:GQ:PL 0/0:76,0:76:99:0,120,1800 1/1:0,196:196:99:6860,587,0
-## 5 GT:AD:DP:GQ:PL 0/0:76,0:76:99:0,120,1800 1/1:0,139:139:99:5054,418,0
-## 6 GT:AD:DP:GQ:PL 0/0:67,0:67:99:0,120,1800   0/0:95,0:95:99:0,114,1800
-##                         V12
-## 1 0/0:47,0:47:99:0,104,1800
-## 2 0/1:6,27:33:99:1003,0,147
-## 3 1/1:0,78:78:99:3026,234,0
-## 4 0/0:57,0:57:99:0,100,1800
-## 5 0/0:57,0:57:99:0,100,1800
-## 6  1/1:4,72:76:63:2658,63,0</code></pre>
+
 <p><br></p>
-<p><strong>5. Opening the VCF as a table in this will cut the header of
+<p><strong>2. Opening the VCF as a table in this will cut the header of
 the VCF (any line with a # at the beginning) and open the file from line
 39 onwards. We can open the full file complete with header to extract
 the column names at line 45:</strong></p>
@@ -131,41 +104,12 @@ the column names at line 45:</strong></p>
 column_names&lt;-unlist(strsplit(vcf_header[45],&quot;\t&quot;))
 colnames(vcf)&lt;-column_names
 head(vcf)</code></pre>
-<pre><code>##        #CHROM  POS ID REF ALT     QUAL FILTER
-## 1 NC_000962.3  237  .   G   A  5105.14   PASS
-## 2 NC_000962.3 1849  .   C   A   994.29   PASS
-## 3 NC_000962.3 1977  .   A   G 11429.73   PASS
-## 4 NC_000962.3 2097  .   C   A  6843.14   PASS
-## 5 NC_000962.3 2532  .   T   C  5037.14   PASS
-## 6 NC_000962.3 3446  .   C   T  2641.14   PASS
-##                                                                                                                                                                   INFO
-## 1                                                                  AC=2;AF=0.333;AN=6;DP=269;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=25.36;SOR=0.707
-## 2     AC=1;AF=0.167;AN=6;BaseQRankSum=0.335;DP=231;ExcessHet=0.0000;FS=30.787;MLEAC=1;MLEAF=0.167;MQ=60.00;MQRankSum=0.00;QD=30.13;ReadPosRankSum=-1.098e+00;SOR=2.292
-## 3                                                                    AC=6;AF=1.00;AN=6;DP=312;ExcessHet=0.0000;FS=0.000;MLEAC=6;MLEAF=1.00;MQ=60.00;QD=28.73;SOR=0.783
-## 4                                                                  AC=2;AF=0.333;AN=6;DP=331;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=34.91;SOR=0.714
-## 5                                                                  AC=2;AF=0.333;AN=6;DP=282;ExcessHet=0.0000;FS=0.000;MLEAC=2;MLEAF=0.333;MQ=60.00;QD=30.97;SOR=0.707
-## 6 AC=2;AF=0.333;AN=6;BaseQRankSum=-5.530e-01;DP=244;ExcessHet=0.0000;FS=8.925;MLEAC=2;MLEAF=0.333;MQ=60.00;MQRankSum=0.00;QD=34.75;ReadPosRankSum=-2.330e-01;SOR=0.054
-##           FORMAT                 ERR190342                   ERR212102
-## 1 GT:AD:DP:GQ:PL 0/0:69,0:69:99:0,120,1800 1/1:0,145:145:99:5122,435,0
-## 2 GT:AD:DP:GQ:PL  0/0:80,0:80:53:0,53,2788 0/0:115,0:115:99:0,120,1800
-## 3 GT:AD:DP:GQ:PL 1/1:0,90:90:99:3555,270,0 1/1:0,133:133:99:4862,399,0
-## 4 GT:AD:DP:GQ:PL 0/0:76,0:76:99:0,120,1800 1/1:0,196:196:99:6860,587,0
-## 5 GT:AD:DP:GQ:PL 0/0:76,0:76:99:0,120,1800 1/1:0,139:139:99:5054,418,0
-## 6 GT:AD:DP:GQ:PL 0/0:67,0:67:99:0,120,1800   0/0:95,0:95:99:0,114,1800
-##                   ERR221611
-## 1 0/0:47,0:47:99:0,104,1800
-## 2 0/1:6,27:33:99:1003,0,147
-## 3 1/1:0,78:78:99:3026,234,0
-## 4 0/0:57,0:57:99:0,100,1800
-## 5 0/0:57,0:57:99:0,100,1800
-## 6  1/1:4,72:76:63:2658,63,0</code></pre>
-<ul>
-<li><p>In all VCF files, the number of columns will be 9 + the number of
+
+<p>In all VCF files, the number of columns will be 9 + the number of
 samples. In our case it will be 9 + 3 samples, so 12 columns
-total.</p></li>
-<li><p>The 9 columns before the sample columns represent the following
-fields each variant (row):</p></li>
-</ul>
+total.</p>
+<p>The 9 columns before the sample columns represent the following
+fields each variant (row):</p>
 <table>
 <colgroup>
 <col width="7%" />
@@ -224,7 +168,7 @@ count, etc. as a total of all samples.</td>
 used to determine the variant call for each sample at each position
 (row). This code is a semi-colon separated string separating the flags
 (there can be other flags can be added):</p>
-<p><br></p>
+
 <p>In our VCF file, for “FORMAT” is <strong>GT:PL:DP:AD</strong>, which
 corresponds to:</p>
 <table>
@@ -272,23 +216,13 @@ calls.</td>
 chromosome the alleles are on). This is important in diploid organisms
 but for haploid, we can treat the calls as the same.</p>
 <p><br></p>
-<p><strong>6. Let’s just view the sample columns with the reference and
+<p><strong>3. Let’s just view the sample columns with the reference and
 alternative allele calls:</strong></p>
 <pre class="r"><code>head(vcf[,c(4,5,10:12)])</code></pre>
-<pre><code>##   REF ALT                 ERR190342                   ERR212102
-## 1   G   A 0/0:69,0:69:99:0,120,1800 1/1:0,145:145:99:5122,435,0
-## 2   C   A  0/0:80,0:80:53:0,53,2788 0/0:115,0:115:99:0,120,1800
-## 3   A   G 1/1:0,90:90:99:3555,270,0 1/1:0,133:133:99:4862,399,0
-## 4   C   A 0/0:76,0:76:99:0,120,1800 1/1:0,196:196:99:6860,587,0
-## 5   T   C 0/0:76,0:76:99:0,120,1800 1/1:0,139:139:99:5054,418,0
-## 6   C   T 0/0:67,0:67:99:0,120,1800   0/0:95,0:95:99:0,114,1800
-##                   ERR221611
-## 1 0/0:47,0:47:99:0,104,1800
-## 2 0/1:6,27:33:99:1003,0,147
-## 3 1/1:0,78:78:99:3026,234,0
-## 4 0/0:57,0:57:99:0,100,1800
-## 5 0/0:57,0:57:99:0,100,1800
-## 6  1/1:4,72:76:63:2658,63,0</code></pre>
+
+<p>Even viewing it like this, it is difficult to manually designate the nucleotide present at a loci for each sample. Therefore, to build consensus sequences we will use the information contained in the VCF file and write some code to create this consensus sequence in the next activity.</p>
+
+<p>Navigate back to the activity <a href="VariantCall.html">here</a>.</p>
 
 
 		
