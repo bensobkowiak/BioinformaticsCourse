@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Phylodynamics</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (BactDating)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+  
+  <h2>Phylodynamics with BEAST2</h2>
+<p>Along with inferring timed phylogenies, we can use BEAST (Bayesian Evolutionary Analysis Sampling Trees) to carry out a range of phylogenetic and phylodynamic analyses. BEAST2 is a newer and more advanced version of BEAST, developed by the same team but with a redesigned architecture to provide a modular and extensible framework. As such, there are a variety of packages available in BEAST2 that have been developed for a range of different analyses, such as jointly reconstructing transmission networks with a phylogeny and inferring recombination. Furthermore, BEAST2 allows users to write their own packages to use their underlying Bayesian architecture, as well as providing <a href="https://www.beast2.org/package-development-guide/writing-a-beast-2_7-package.html">tutorials</a> to write these packages.</p>
+<p>Here, we will run a phylodynamics analysis using the BEAST2 package 'BDSKY' to infer past population dynamics of our TB cluster.</p>
+<p>The data we will be using in this exercise are:</p>
+<ul>
+<li>
+<p><strong>TB_Cluster.fasta</strong> – A FASTA alignment file of concatenated SNPs from 38 <em>M. tuberculosis</em> samples collected between 2005 - 2014 in British Columbia. These isolates all share a MIRU-VNTR type, suggesting they may be linked by transmission.</p>
+</li>
+<li>
+<p><strong>TB_Cluster.txt</strong> – A text file with two columns, the name of the 38 <em>M. tuberculosis</em> samples and their collection dates.</p>
+</li>
+</ul>
+<h3>Open BEAUti:</h3>
+<h3>1. Click file -&gt; Manage Packages:</h3>
+<p><img src="Pictures/Sky1.jpg" alt="Description1" width="70%"/></p>
+<p><br>   </p>
+<h3>2. Scroll down and select the 'BDSKY' package. Click "Install/Upgrade:</h3>
+<p><img src="Pictures/Sky2.jpg" alt="Description1" width="70%"/></p>
+<p><br>   </p>
+<h3>This will download the package. You should get a prompt stating it has been successfully installed but that it will need to be restarted for any changes to take effect. Please restart BEAUti.</h3>
+<h3>3. Now load in the data, set the tip dates and set up the site model and clock model as in the <a href="Beast.md">previous exercise</a>.</h3>
+<p><br>   </p>
+<h3>4. The difference in this analysis will be when setting up the tree model. Here we want to select the 'Coalescent Bayesian Skyline' option.</h3>
+<p><img src="Pictures/Sky3.jpg" alt="Description1" width="70%"/></p>
+<p><br>   </p>
+<h3>5. Set the number of MCMC iteration to 10 million for this analysis and save the file, it should take around 5 minutes to run.</h3>
+<p><img src="Pictures/Sky4.jpg" alt="Description1" width="70%"/></p>
+<p><br>   </p>
+<h3>6. Run your new XML file in BEAST in the same way as the <a href="Beast.md">previous exercise</a>.</h3>
+<p><br>   </p>
+<h3>7. Open Tracer and view your log file. It should hopefully have reached convergence or near convergence at all parameters. We can now view the results of Skyline analysis. Click 'Analysis -&gt; Bayesian Skyline Reconstruction':</h3>
+<p><img src="Pictures/Sky5.jpg" alt="Description1" width="70%"/></p>
+<p><br>  </p>
+<h3>8. In the 'Trees Log File' option, load in the resulting .trees file from your BEAST run. We can also set the age of the youngest tip as 2014.6 as we know our most recent sample was collected in July 2014. Press okay to run the analysis:</h3>
+<p><img src="Pictures/Sky6.jpg" alt="Description1" width="70%"/></p>
+<p><br>  </p>
+<h3>9. We now have our skyline plot showing an estimate of the past population demography:</h3>
+<p><img src="Pictures/Sky7.jpg" alt="Description1" width="70%"/></p>
+<p><br>  </p>
+<h3>Questions:</h3>
+<h3>1. How do we interpret this plot?</h3>
+<h3>2. What can we say about the trajectory of our TB outbreak?</h3>
+<p><br></p>
+<p>BEAST2 contains many other packages and analysis types that you can explore. Again the Taming the BEAST workshop is a great resource to learn more, including this <a href="https://taming-the-beast.org/tutorials/Skyline-plots/">tutorial on skyline plots.</a></p>
+<h3>This is the end of the activities in practical session 6. Navigate back to the homepage for other activities <a href="../index.html">here</a>.</h3>
+
+  
+		
+	</div>
+</body>
+
+
+  
+</html>
