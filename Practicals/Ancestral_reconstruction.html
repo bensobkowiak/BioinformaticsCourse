@@ -103,17 +103,16 @@ divergence. These reconstructions integrate phylogenetic trees and
 geographical data and enable researchers to trace the origins and
 migration of populations or the spread of disease.</p>
 <p>Here we will use the ‘ace’ function in the R package ‘ape’ to carry
-out ancestral reconstruction of the location of strains throughout the
-timed phylogeny from the P1 SARS-CoV-2 strains in the Pacific Northwest.
-This will help to track the variant and identify times when there may
-have been a migration between states and countries.</p>
+out ancestral reconstruction on the location of SARS-CoV-2 strains of the P.1 variant collected in the Pacific Northwest of North America.
+This will allow us to track the variant and identify instances when there may
+have been a migration of infections between states and countries.</p>
 <p>The data files we will be using are:</p>
 <ul>
-<li>P1_timetree.tree - The timed phylogeny of P1 SARS-CoV-2 sequences
-collected from the Pacific Northwest that were downloaded from
+<li>P1_timetree.tree - A timed phylogeny of P1 SARS-CoV-2 sequences
+collected from the Pacific Northwest of North America that were downloaded from
 GISAID</li>
 <li>P1_dates_location.csv - A file containing the dates and locations of
-all P1 SARS-CoV-2 sequences</li>
+the P1 SARS-CoV-2 sequences</li>
 </ul>
 <p><br></p>
 <div id="first-we-will-set-up-the-packages-and-options" class="section level4">
@@ -121,34 +120,34 @@ all P1 SARS-CoV-2 sequences</li>
 <pre class="r"><code># Install and load required packages
 if (!requireNamespace(&quot;ape&quot;, quietly = TRUE)) {
   install.packages(&quot;ape&quot;)
+	library(ape)
 }
 if (!requireNamespace(&quot;phytools&quot;, quietly = TRUE)) {
   install.packages(&quot;phytools&quot;)
+	library(phytools)
 }
 if (!requireNamespace(&quot;ggalluvial&quot;, quietly = TRUE)) {
   install.packages(&quot;ggalluvial&quot;)
+	library(ggalluvial)
 }
 if (!requireNamespace(&quot;ggplot2&quot;, quietly = TRUE)) {
   install.packages(&quot;ggplot2&quot;)
+	library(ggplot2)
 }
 if (!requireNamespace(&quot;tibble&quot;, quietly = TRUE)) {
   install.packages(&quot;tibble&quot;)
+	library(tibble)
 }
 if (!requireNamespace(&quot;dplyr&quot;, quietly = TRUE)) {
   install.packages(&quot;dplyr&quot;)
+	library(dplyr)
 }
 if (!requireNamespace(&quot;tidyr&quot;, quietly = TRUE)) {
   install.packages(&quot;tidyr&quot;)
+	library(tidyr)
 }
 </code></pre>
-library(ape)
-library(tibble)
-library(dplyr)
-library(tidyr)
-library(phytools)
-library(ggalluvial)
-library(ggplot2)
-library(ggtree)</code></pre>
+
 
 <pre class="r"><code>options(stringsAsFactors = F)</code></pre>
 <p><br></p>
