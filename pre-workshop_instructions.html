@@ -177,6 +177,54 @@ conda activate bioinfo-workshop
 </ol>
     
 <br>
+
+<h3>Windows users with ARM64 (alternative with Virtual Box)</h3>
+
+<p>Windows users with ARM64 operating systems can sometimes run into problems with downloading these programs and dependencies. If so, please following these instructions to run the workshop from a Virtual Box VM.</p>
+
+<h4>First, install Virtual Box</h4>
+
+<ol>
+  <li>Download Virtual box from <a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a>.</li>
+  
+  <li>Install VirtualBox for your operating system.</li>
+  
+  <li>Download and install the Extension Pack from the same page (optional, for USB and folder sharing).</li>
+
+<h4>Download Ubuntu ISO</h4>
+
+  <li>Download Ubuntu Desktop 22.04 LTS (64-bit) from: <a href="https://releases.ubuntu.com/22.04/">https://releases.ubuntu.com/22.04/</a></li>
+
+  <li>Choose: ubuntu-22.04.4-desktop-amd64.iso</li>
+
+<h4>Create and Configure the Virtual Machine</h4>
+
+  <li>Open VirtualBox</li>
+  
+  <li>Click "New" and create a VM with the following settings:</li>
+  <ul>
+    <li>Name: BioinformaticsVM</li>
+    <li>Type: Linux</li>
+    <li>Version: Ubuntu (64-bit)</li>
+    <li>Memory: at least 4096 MB (8192 MB recommended)</li>
+    <li>Hard disk: dynamically allocated, 20 GB or more</li>
+    <li>In "Settings → System → Processor", assign 2 or more CPUs</li>
+    <li>In "Settings → Storage", attach the Ubuntu ISO to the optical drive</li>
+  </ul>
+
+<h4>Install Ubuntu</h4>
+  
+  <li>Start the VM and follow the on-screen instructions to install Ubuntu</li>
+
+  <li>Choose "Normal installation" and enable updates during install</li>
+
+  <li>After installation, reboot and log into your new Ubuntu system</li>
+
+</ol>
+
+<p>You should now be able to following the Windows instructions from above from step 4 (Install Miniconda inside WSL) and work from within the VM.</p>
+
+    
 <h3>All users</h3>
 
 <p>These programs must be installed directly from their websites:</p>
