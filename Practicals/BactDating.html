@@ -108,7 +108,7 @@ intial priors that are updated through the analysis using Markov Chain
 Monte Carlo (MCMC) sampling for estimation.</p>
 <p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/pmid/30184106/">BactDating</a>
 is an Bayesian approach implemented in R to construct dated
-phylogenies.</p>
+phylogenies. Here we will go through the two-step timed phylogeny building using an un-timed phylogeny built with IQtree of 200 M. tuberculosis isolates collected in Moldova between 2018 - 2019. A file with the collection dates has also been provided.</p>
 <p><br></p>
 <div id="first-we-will-set-up-the-packages-and-options" class="section level4">
 <h4>1. First we will set up the packages and options:</h4>
@@ -122,7 +122,7 @@ phylogenies.</p>
 <div id="next-load-the-un-timed-maximum-likelihood-phylogenetic-tree-of-200-m.-tuberculosis-isolates-collected-between-2018-and-2019-in-moldova-that-was-built-with-iq-tree.-this-tree-has-been-provided-in-the-data-folder." class="section level4">
 <h4>2. Next load the un-timed Maximum Likelihood phylogenetic tree of
 200 <em>M. tuberculosis</em> isolates collected between 2018 and 2019 in
-Moldova that was built with IQ-Tree. This tree has been provided in the
+Moldova that was built with IQTree. This tree has been provided in the
 data folder.</h4>
 <pre class="r"><code>tree &lt;- ape::read.tree(&quot;TB_Moldova.tree&quot;) </code></pre>
 <p><br></p>
