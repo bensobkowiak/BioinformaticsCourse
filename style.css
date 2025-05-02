@@ -113,17 +113,17 @@ pre code {
   position: absolute;
   top: 8px;
   right: 8px;
-  padding: 4px 8px;
-  font-size: 0.75em;
-  background-color: #eaeef2;
-  border: 1px solid #d0d7de;
-  border-radius: 4px;
+  background: none;
+  border: none;
+  font-size: 1em;
   cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
   z-index: 10;
 }
 
-.copy-block-btn:active {
-  background-color: #d0d7de;
+.copy-block-btn:hover {
+  opacity: 1;
 }
 
 .content-image {
