@@ -169,55 +169,63 @@
 <td>Total count of reads in the sequencing dataset.</td>
 </tr>
 <tr>
-<td>2. Duplicates</td>
+<td>2. Secondary</td>
+<td>Number of partial alignments of a read in different locations of the genome.</td>
+</tr>
+<tr>
+<td>3. Supplementary</td>
+<td>Number of chimeric alignments in the dataset.</td>
+</tr>
+<tr>
+<td>4. Duplicates</td>
 <td>Number of duplicate reads in the dataset.</td>
 </tr>
 <tr>
-<td>3. Number of mapped reads</td>
+<td>5. Number of mapped reads</td>
 <td>Count of reads that successfully align to a reference genome.</td>
 </tr>
 <tr>
-<td>4. Paired reads in sequencing</td>
+<td>6. Paired reads in sequencing</td>
 <td>Total number of paired-end reads in the sequencing dataset.</td>
 </tr>
 <tr>
-<td>5. Number of forward reads</td>
+<td>7. Number of forward reads</td>
 <td>Count of reads aligned in the forward orientation.</td>
 </tr>
 <tr>
-<td>6. Number of reverse reads</td>
+<td>8. Number of reverse reads</td>
 <td>Count of reads aligned in the reverse orientation.</td>
 </tr>
 <tr>
-<td>7. Number of properly mapped reads</td>
+<td>9. Number of properly mapped reads</td>
 <td>Reads that are properly mapped, i.e., same chromosome, opposite orientation, and within a few deviations from the expected insert size.</td>
 </tr>
 <tr>
-<td>8. Number of reads mapped along with their mates</td>
+<td>10. Number of reads mapped along with their mates</td>
 <td>Total number of reads where both ends of the paired reads are successfully mapped. (7 is a subset of 8)</td>
 </tr>
 <tr>
-<td>9. Singletons</td>
+<td>11. Singletons</td>
 <td>Number of reads mapped alone, i.e., mates not mapped. (8 + 9 = 3)</td>
 </tr>
 <tr>
-<td>10. Reads whose mates are mapped to a different chromosome</td>
+<td>12. Reads whose mates are mapped to a different chromosome</td>
 <td>Reads where one end is mapped to a different chromosome than its mate.</td>
 </tr>
 <tr>
-<td>11. Reads whose mates are mapped to a different chromosome with mapping quality greater than 5</td>
+<td>13. Reads whose mates are mapped to a different chromosome with mapping quality greater than 5</td>
 <td>Subset of (10) with a higher mapping quality threshold.</td>
 </tr>
 </tbody>
 </table>
 <p><br></p>	
-<p><em>Question: Why might line 3, number of mapped reads, be low? How might you increase the number of mapped reads?</em></p>
+<p><em>Question: Why might line 5, number of mapped reads, be low? How might you increase the number of mapped reads?</em></p>
 <p><br></p>
 <p>Your “TB1" sequence data is now aligned to the reference genome H37Rv and stored in a BAM file, which has been indexed and sorted to the reference.</p>
 <p><br></p>
 <h3>Visualizing BAM files</h3>
 <ol>
-<li>Open the Program “Tablet” that will have saved to the applications on your computer. The opening screen should look like this:</li>
+<li>Open the Program “Tablet” or "BamView" that will have saved to the applications on your computer. The opening screen should look like this:</li>
 <p><img src="../Pictures/Tablet1.jpeg" alt="Description" width="60%"/></p>
 <p><br></p>
 <li>Click the “Open Assembly” button (in red above) to load alignment (TB1.bam) and reference file (H37Rv.fasta) by navigating to the folder these are stored in after clicking 'browse' in the “Select assembly files”.</li>
