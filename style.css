@@ -8,7 +8,7 @@ body {
   width: 220px;
   background: #6d8494;
   color: white;
-  padding: 1.5rem 1rem;         /* reduce horizontal padding */
+  padding: 1.5rem 1rem;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -21,10 +21,10 @@ body {
 
 .sidebar-logos {
   display: flex;
-  flex-direction: column;   /* stack vertically */
+  flex-direction: column;
   align-items: flex-start;
   gap: 0.25px;
-  margin-bottom: 2rem;      /* bring logos up from the very bottom */
+  margin-bottom: 2rem;
 }
 
 .logo {
@@ -38,7 +38,7 @@ body {
 }
 
 .sidebar-links {
-  text-align: left; 
+  text-align: left;
   margin-top: 3rem;
 }
 
@@ -58,7 +58,7 @@ body {
 }
 
 .content {
-  margin-left: 250px;        /* push content to the right of the fixed sidebar */
+  margin-left: 250px;
   padding: 2rem 3rem 0rem 2rem;
   flex-grow: 1;
   background: white;
@@ -95,17 +95,21 @@ th, td {
 }
 
 pre {
-  background-color: #f5f5f5; /* light grey */
+  position: relative;                  /* ✅ Required for button positioning */
+  background-color: #f5f5f5;
   padding: 12px;
   border-radius: 5px;
   max-width: 100%;
   overflow-x: auto;
   display: block;
+  margin-bottom: 2rem;
 }
 
 pre code {
   font-family: monospace;
-  max-width: 100%;
+  display: block;
+  white-space: pre;
+  padding-right: 2.5em;               /* ✅ Space for the button */
   overflow-x: auto;
 }
 
@@ -118,9 +122,13 @@ pre code {
   font-size: 1em;
   color: #008cba;
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0;
   transition: opacity 0.2s;
   z-index: 10;
+}
+
+pre:hover .copy-block-btn {
+  opacity: 0.6;
 }
 
 .copy-block-btn:hover {
@@ -128,11 +136,11 @@ pre code {
 }
 
 .content-image {
-  width: 1000px;        /* or set a fixed width like 600px */
+  width: 1000px;
   max-width: 1000px;
   display: block;
   margin: 2rem 0;
-  border-radius: 8px; /* optional: soft rounded corners */
+  border-radius: 8px;
 }
 
 .section-label {
