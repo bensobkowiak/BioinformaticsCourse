@@ -116,6 +116,7 @@ pre code {
   background: none;
   border: none;
   font-size: 1em;
+  color: #008cba;
   cursor: pointer;
   opacity: 0.6;
   transition: opacity 0.2s;
