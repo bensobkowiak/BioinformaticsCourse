@@ -98,7 +98,7 @@
 <p>For this activity, we will use the following files found in your /data/ folder:</p>
 <ul>
 <li>
-<p><strong>TB1_R1.fastq.gz</strong> and <strong>TB1_R2.fastq.gz</strong> – Paired-end 250bp sequence data from <em>Mycobacterium tuberculosis</em>, collected from sputum and cultured before DNA library preparation. These have been inspected and cleaned already.</p>
+<p><strong>Test3_R1.fastq.gz</strong> and <strong>Test3_R2.fastq.gz</strong> – Paired-end 150bp sequence data from <em>Mycobacterium tuberculosis</em>, collected from sputum and cultured before DNA library preparation. These have been inspected and cleaned already.</p>
 </li>
 <li>
 <p><strong>H37Rv.fasta</strong> – A single consensus sequence for a laboratory strain of <em>Mycobacterium tuberculosis</em> that has been widely used in tuberculosis research as a well-characterized reference strain. This sequence is 4,411,532 base pairs long and represents the full genome of this sample.</p>
@@ -128,29 +128,29 @@
 <p>We will just be using the standard parameters for our alignments so will not add any other options but it is important to review and optimize these options for your data. Further information on these options can be found [here].(https://bio-bwa.sourceforge.net/bwa.shtml)</p>
 
 <li>The following command will align our paired reads to the H37Rv reference strain:</li>
-<pre><code class="language-bash">bwa mem H37Rv.fasta TB1_R1.fastq.gz TB1_R2.fastq.gz &gt; TB1.sam
+<pre><code class="language-bash">bwa mem H37Rv.fasta Test3_R1.fastq.gz Test3_R2.fastq.gz &gt; Test3.sam
 </code></pre>
 <p>This will produce a SAM file in the same folder, which we are calling TB1.sam. </p>
 <p><br></p>
 <li>We now need to convert the SAM file into its binary format – BAM file. This is the format that is required as an input for variant calling software (to be covered in tomorrow's activities) and visualization tools, as well as reducing the file size. We can use SAMtools ‘view’ to convert from SAM to BAM (the -b option tells the program to output a BAM file):</li>
-<pre><code class="language-bash">samtools view -b TB1.sam &gt; TB1.bam
+<pre><code class="language-bash">samtools view -b Test3.sam &gt; Test3.bam
 </code></pre>
 <p><em>Tip: You can now remove the SAM file now to free up space as we now have the alignment in BAM format:</em></p>
-<pre><code class="language-bash">rm TB1.sam 
+<pre><code class="language-bash">rm Test3.sam 
 </code></pre>
 <p><br></p>
 <li>BAM files must be sorted and indexed by the chromosomes/contigs/scaffolds in your reference genome in order to efficiently display/access the data in the BAM file. We can do this with SAMtools:</li>
-<pre><code class="language-bash">samtools sort TB1.bam &gt; TB1_sorted.bam 
+<pre><code class="language-bash">samtools sort Test3.bam &gt; Test3_sorted.bam 
 </code></pre>
 <p><em>Tip: You can rename the sorted BAM file (which will also remove the unsorted BAM file):</em></p>
-<pre><code class="language-bash">mv TB1_sorted.bam TB1.bam
+<pre><code class="language-bash">mv Test3_sorted.bam Test3.bam
 </code></pre>
 <p>Then we will index the sorted BAM file that will create an additional .bai file:</p>
-<pre><code class="language-bash">samtools index TB1.bam 
+<pre><code class="language-bash">samtools index Test3.bam 
 </code></pre>
 <p><br></p>
 <li>Finally, you can print summary statistics from the indexed BAM file using the SAMtools ‘flagstat’ option:</li>
-<pre><code class="language-bash">samtools flagstat TB1.bam 
+<pre><code class="language-bash">samtools flagstat Test3.bam 
 </code></pre>
 <p>It will look something like this:</p>
 <p><img src="../Pictures/samtools1.jpeg" alt="Description" width="60%"/></p>
@@ -240,7 +240,7 @@
 <li>To navigate through the genome, you will need to use the bar on top by dragging it (3). To navigate through the 25 Kb loaded you can click and drag the Read panel (2) or use the button below (4). Note that the red numbers in each corner of the Read panel will display the region currently being shown (5).</li>
 </ol>
 <p><strong>Exercise:</strong> </p>
-<p>Scroll to base 1977, what do you see? What feature do you think this might be?</p>
+<p>Scroll to base 116000, what do you see? What feature do you think this might be?</p>
 <p><em>Hint. It may become clearer if you click the “Tag variants” button in the top panel.</em></p>
 <ul>
 <li>
@@ -254,8 +254,7 @@
 </li>
 </ul>
 <p><strong>Exercise:</strong> </p>
-<p>Jump to base 1,955,913, what do you see? Why do you think this is the case? What feature do you think this might be?</p>
-<p>Compare this to the sequence at 1,986,639. What do you think the difference is between these regions?</p>
+<p>Jump to base 1,997,457, what do you see? Why do you think this is the case? What feature do you think this might be?</p>
 <hr />
 <p>Next activity: <a href="denovo.html">De novo assembly</a></p>
   
