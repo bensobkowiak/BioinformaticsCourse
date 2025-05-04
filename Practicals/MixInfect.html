@@ -115,13 +115,11 @@ tuberculosis</em> samples.</p></li>
 want to mask from the mixed infection analysis as variation in these
 genes can obscure the signal from mixed infection.</p></li>
 </ul>
-<p><br></p>
 <div id="first-we-will-set-up-the-mixinfect2-function-from-the-mixinfect2.r-script-in-your-folder" class="section level4">
 <h4>1. First we will set up the MixInfect2 function from the
 MixInfect2.R script in your folder:</h4>
 <pre class="r"><code># Set packages 
 source(&quot;MixInfect2.R&quot;)</code></pre>
-<p><br></p>
 </div>
 <div id="next-we-can-run-mixinfect2.-this-will-take-the-vcf-file-and-the-csv-file-with-masked-regions-as-input" class="section level4">
 <h4>2. Next, we can run MixInfect2. This will take the VCF file and the
@@ -131,11 +129,13 @@ CSV file with masked regions as input</h4>
 <div id="this-will-save-the-results-of-mixinfect2-to-the-results-variable.-view-the-results" class="section level4">
 <h4>3. This will save the results of MixInfect2 to the results variable.
 View the results:</h4>
+<pre class="r"><code>head(results)</code></pre>
 </div>
 <div id="we-can-see-that-we-have-some-potential-mixed-infection-in-our-three-samples.-below-are-two-allele-frequency-plots-from-our-samples." class="section level4">
 <h4>4. We can see that we have some potential mixed infection in our
 three samples. Below are two allele frequency plots from our
 samples.</h4>
+<p><img src="../Pictures/AlleleFreq.jpg" alt="Description1" width="10%"/></p>
 </div>
 <div id="discussion-which-of-our-samples-do-you-think-these-plots-may-belong-to" class="section level4">
 <h4><em>Discussion: Which of our samples do you think these plots may
