@@ -109,32 +109,26 @@
 <p><br></p>
 <ol>
 <li>Install the required dependencies into your conda environment.</li>
-</ol>
 <pre><code class="language-bash">conda install -c conda-forge -c bioconda -c defaults clonalframeml
 </code></pre>
-<ol>
 <li>Run ClonalFrameML to estimate recombination events that are present in the genome. This will be run with the following command:</li>
-</ol>
 <pre><code class="language-bash">ClonalFrameML Klebsiella.tree Klebsiella.tree Klebsiella_recomb
 </code></pre>
 <p><em>This can take around 15 minutes to run so please put this on before lunch.</em></p>
-<h4>After ClonalFrameML has run you will have produced the following files:</h4>
+<h4>After ClonalFrameML has completed, you will have produced the following files:</h4>
 <p>Klebsiella_recomb.ML_sequence.fasta - Sequence reconstructed by maximum likelihood for all internal nodes of the phylogeny.
 Klebsiella_recomb.labelled_tree.newick – Tree with nodes labelled on the tree.
 Klebsiella_recomb.em.txt – The point estimates for R/theta, nu, delta and the branch lengths.
 Klebsiella_recomb.importation_status.txt – Table of recombination events, one line for each event, columns indicate the branch on which the event was found and the first and last genomic positions affected by the recombination event.
 Klebsiella_recomb.position_cross_reference.txt - Comma-separated values indicating for each location in the input sequence file the corresponding position in the ML_sequences.fasta file.</p>
-<ol>
 <li>
 <p>Open the "Klebsiella_recomb.importation_status.txt" file. This will show you estimated positions in the alignment of recombination events and on which branches these fall.</p>
 </li>
 <li>
 <p>We can also use an R script that is provided with ClonalFrameML to view the recombination events along the alignment and where this is on the tree. I have provided the R script - cfml_results.R. You can run the script with the following command:</p>
 </li>
-</ol>
 <pre><code class="language-bash">Rscript cfml_results.R Klebsiella_recomb
 </code></pre>
-<ol>
 <li>Open the result PDF file - Klebsiella_recomb.cfml.pdf. Discuss what you think this plot shows.</li>
 </ol>
 <h4>This analysis will identify potential recombination events in your alignments and produce the plots. If you want to determine in which genes the recombination events are found, you will need to refer to the annotation in the pangenome construction.</h4>
