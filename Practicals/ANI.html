@@ -119,16 +119,14 @@
 <p><br></p>
 <ol>
 <li>Install the required dependencies into your conda environment.</li>
-</ol>
 <pre><code class="language-bash">conda install -c bioconda blast
 pip install biopython
 </code></pre>
 <p><em>These should already be downloaded but we want to make sure they are available to run the next command.</em></p>
-<ol>
 <li>We can now calculate the ANI between our unknown assembly and each reference strain, one at time, with the following command (this will calculate ANI for the unknown assembly and the H37Rv <em>M. tuberculosis</em> strain):</li>
-</ol>
 <pre><code class="language-bash">python computeANI.py Unknown.fasta H37Rv.fasta
 </code></pre>
+</ol>
 <h4>Run the analysis again for each of the reference strains.</h4>
 <h4><em>Questions</em></h4>
 <ol>
