@@ -113,7 +113,6 @@ phylogeny that belong to lineage 2.</p></li>
 <li><p>TB_Lineage4.txt - The names of the tips in the TB_Moldova.tree
 phylogeny that belong to lineage 4.</p></li>
 </ul>
-<p><br></p>
 <div id="first-we-will-load-the-lbi-script-and-set-the-packages-required" class="section level4">
 <h4>1. First we will load the LBI script and set the packages
 required:</h4>
@@ -122,13 +121,11 @@ require(ape)</code></pre>
 <pre class="r"><code>require(ggplot2)</code></pre>
 <pre><code>## Loading required package: ggplot2</code></pre>
 <pre class="r"><code>source(&quot;lbi.R&quot;)</code></pre>
-<p><br></p>
 </div>
 <div id="next-we-can-load-our-tree-tb_moldova.tree-and-assign-it-to-the-variable-tree" class="section level4">
 <h4>2. Next, we can load our tree “TB_Moldova.tree” and assign it to the
 variable ‘tree’:</h4>
 <pre class="r"><code>tree &lt;- read.tree(&quot;TB_Large.tree&quot;)</code></pre>
-<p><br></p>
 </div>
 <div id="we-want-to-compare-the-lbi-estimates-between-lineage-2-and-lineage-4-lineages-in-our-tree.-therefore-we-must-run-the-lbi-estimate-on-trees-of-only-lineage-2-strains-and-only-lineage-4-strains-independently.-here-we-will-use-the-load-the-text-files-with-the-names-of-the-lineage-2-and-lineage-4-tips-and-use-the-keep.tip-function-in-ape-package-to-extract-trees-of-only-lineage-2-and-lineage-4-strains-from-the-input-phylogeny" class="section level4">
 <h4>3. We want to compare the LBI estimates between lineage 2 and
@@ -143,14 +140,12 @@ lineage4 &lt;- read.table(&quot;TB_Lineage4.txt&quot;)[,1]
 
 lineage2_tree &lt;- keep.tip(tree, lineage2)
 lineage4_tree &lt;- keep.tip(tree, lineage4)</code></pre>
-<p><br></p>
 </div>
 <div id="we-can-now-use-the-lbi-function-to-calculate-the-lbi-for-each-node-in-the-lineage-2-and-lineage-4-trees" class="section level4">
 <h4>4. We can now use the ‘lbi’ function to calculate the LBI for each
 node in the lineage 2 and lineage 4 trees</h4>
 <pre class="r"><code>lineage2_lbi &lt;- lbi(lineage2_tree)
 lineage4_lbi &lt;- lbi(lineage4_tree)</code></pre>
-<p><br></p>
 </div>
 <div id="this-will-give-us-a-string-of-values-for-an-estimate-of-the-lbi-in-each-tree.-we-can-compare-the-lbi-of-lineage-2-and-lineage-4-strains-in-our-dataset-by-plotting-these-density-plots.-first-we-can-combine-these-data-into-a-two-column-table-for-plotting-first-column-being-the-lineage-lineage-second-column-as-the-the-estimated-lbi-lbi." class="section level4">
 <h4>5. This will give us a string of values for an estimate of the LBI
@@ -166,7 +161,8 @@ results &lt;- data.frame(Lineage = c(names(lineage2_lbi), names(lineage4_lbi)),
                       LBI = c(lineage2_lbi, lineage4_lbi))
 
 results &lt;- results[!is.na(results$LBI),] ## remove NA values</code></pre>
-<p><br></p>
+<h4>6. Finally, we can use the 'geom_density' function in ggplot2 to plot our LBI densities.</h4>
+	
 <pre class="r"><code>ggplot(results, aes(x = LBI, fill = Lineage, color = Lineage)) +
   geom_density(alpha = 0.4) +
   theme_minimal() +
