@@ -111,7 +111,7 @@
 <pre><code class="language-bash">Rscript runHomoplasyFinder.R -f TB_Moldova.fasta -t TB_Moldova.tree
 </code></pre>
 
-<h4>Next we will open the results in R to view the findings, identity where we may have homoplasy, and plot these on a tree.</h4>
+<h4>Next we will open the results in R to view the findings, identify where we may have homoplasies, and plot these on a tree.</h4>
 <h4>2. HomoplasyFinder will write 3 files to your directory. We are interested in the file that contains the positions in which there is evidence of homoplasy. We will read this file and call it 'results'.</h4>
 <pre><code class="language-r">resultsFile &lt;- paste0(&quot;consistencyIndexReport_&quot;, format(Sys.Date(), &quot;%d-%m-%y&quot;), &quot;.txt&quot;)
 results &lt;- read.table(resultsFile, header=TRUE, sep=&quot;\t&quot;, stringsAsFactors=FALSE)
