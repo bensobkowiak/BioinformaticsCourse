@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>dNdS</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (BactDating)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+  <h2>Identifying genes under selection with dN/dS</h2>
+<p>We can identify genes that may be under selection in populations
+using genomic sequencing data. A method to estimate which genes are
+under positive or negative selection is to calculate the dN/dS ratio for
+a gene, which is the ratio of non-synonymous (amino acid changing and
+thus potentially protein changing) mutations and synonymous (non-amino
+acid changing) mutations.</p>
+<p>A dN/dS value of &gt; 1 implies that a gene is under positive
+selection and the higher this value, the stronger the selection. This
+shows that the ratio of non-synonymous mutations is higher than
+synonymous and beneficial mutations are being fixed in the gene, which
+can be the result of adaptation to new pressures or environments.</p>
+<p>Conversely, a dN/dS ratio value of &lt; 1 will suggest that a gene is
+under purifying selection and the number of synonymous SNPs is higher
+than non-synonymous. This is leads to conservation of the protein
+function of the gene, implying these may be important housekeeping
+genes. We can also have values of ~ 1 that implies the genes is evolving
+neutrally, with no selection.</p>
+<p>There are multiple standalone software that will calculate dN/dS
+(e.g.,<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/pmid/30184106/">PAML</a>,
+<a href="https://github.com/veg/hyphy">HyPhy</a>), along with
+alternative methods for estimating which genes are under selection using
+population genetics, including as Site-Frequency Spectrum methods (e.g.,
+Tajima’s <em>D</em>) and identifying specific mutations associated with
+a phenotype (e.g., GWAS - next activity).</p>
+<p>This practical will take you through a more manual approach for
+calculating the dN/dS value per gene using the ‘kaks’ function in the
+‘seqinr’ package in R.</p>
+<p><br></p>
+<div id="first-we-will-set-up-the-packages-and-options" class="section level4">
+<h4>1. First we will set up the packages and options:</h4>
+<pre class="r"><code># Set packages
+require(seqinr)
+options(stringsAsFactors = F)</code></pre>
+<p><br></p>
+</div>
+<div id="next-we-need-an-alignment-of-full-genes-that-are-in-a-format-for-each-nucleotide-base-to-be-read-in-the-correct-codon-position-i.e.-1st-2nd-and-3rd-codon-position." class="section level4">
+<h4>2. Next we need an alignment of full genes that are in a format for
+each nucleotide (base) to be read in the correct codon position (i.e.,
+1st, 2nd and 3rd codon position).</h4>
+<p>From the download folder, we have the multi-sample alignment called
+“FullSequence.fasta”, which contains gene and intergenic regions, and an
+index file showing the names and positions (Name, Start, Stop) of the
+genes in the sequence alignment called “FullSequence_index.csv”.</p>
+<div id="activity-write-an-r-script-to-make-a-multi-sample-alignment-of-each-gene-separately-naming-the-resulting-fasta-the-name-of-the-gene-contained-in-the-first-column-of-the-fullsequence_index.csv-file-e.g.-e_gene.fasta." class="section level5">
+<h5>Activity: Write an R script to make a multi-sample alignment of each
+gene separately, naming the resulting FASTA the name of the gene
+contained in the first column of the FullSequence_index.csv file (e.g.,
+E_Gene.fasta).</h5>
+<p><em>The solution is <a href="make_gene_alignment.html">here</a> but
+please attempt to write the code yourselves.</em></p>
+<p><br></p>
+</div>
+</div>
+<div id="we-we-can-then-calculate-the-dnds-score-for-each-gene-by-reading-in-the-fasta-and-calculating-the-number-of-non-synonymous-sites-ka-and-synonymous-sites-ks-for-each-gene-using-the-kaks-function-in-seqinr.-i-have-given-you-the-code-to-run-one-of-the-genes-please-calculate-the-dnds-ratio-for-all-genes" class="section level4">
+<h4>3. We we can then calculate the dN/dS score for each gene by reading
+in the FASTA and calculating the number of non-synonymous sites (ka) and
+synonymous sites (ks) for each gene using the ‘kaks’ function in seqinr.
+I have given you the code to run one of the genes, please calculate the
+dN/dS ratio for all genes:</h4>
+<pre class="r"><code>Gene_alignment &lt;- read.alignment(&quot;E_Gene.fasta&quot;,format = &quot;fasta&quot;)
+
+Result &lt;- kaks(Gene_alignment)
+
+print(mean(Result$ka)/mean(Result$ks))</code></pre>
+<pre><code>## [1] 0.1215897</code></pre>
+<p><br></p>
+</div>
+<div id="questions" class="section level4">
+<h4><em>Questions</em>:</h4>
+</div>
+<div id="which-genes-have-the-highest-and-lowest-dnds-values" class="section level4">
+<h4>1. Which genes have the highest and lowest dN/dS values?</h4>
+</div>
+<div id="which-genes-are-under-purifying-or-positive-selection" class="section level4">
+<h4>2. Which genes are under purifying or positive selection?</h4>
+</div>
+<div id="think-about-why-these-genes-might-be-under-purifying-or-positive-selection" class="section level4">
+<h4>3. Think about why these genes might be under purifying or positive
+selection?</h4>
+<p><br></p>
+</div>
+<div id="next-activity-gwas" class="section level3">
+<h3>Next activity: <a href="GWAS.html">GWAS</a></h3>
+<p><br></p>
+</div>
+		
+	</div>
+  <script src="../script.js"></script>
+</body>
+
+
+  
+</html>
