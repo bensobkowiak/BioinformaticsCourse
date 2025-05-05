@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homoplasy</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+
+<div class="sidebar">
+  <div class="sidebar-links">
+    <a href="../index.html">Home</a>
+
+    <a href="../pre-workshop_instructions.html">Pre-workhop Instructions</a>
+
+    <div class="subsection">
+      <div class="section-subtitle">Lectures</div>
+      <a href="../Lectures/Lecture1_WGS.pdf">1: Introduction and Key Concepts</a>
+      <a href="../Lectures/Lecture2_Variants.pdf">2: Variant Detection and Phylogenetic Trees</a>
+      <a href="../Lectures/Lecture3_Phylodynamics.pdf">3: Practical Applications of WGS and Phylogenetics</a>
+      <a href="../Lectures/Lecture4_Advanced.pdf">4: Advanced Applications of WGS</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 1: WGS Data Analysis</div>
+      <a href="../Practicals/Obtaining_data.html">Obtaining sequencing data</a>
+      <a href="../Practicals/View_raw_sequence.html">Viewing raw sequencing data</a>
+      <a href="../Practicals/Quality_control.html">QC of FASTQ files</a>
+      <a href="../Practicals/cleaning_fastq.html">Cleaning and filtering FASTQs</a>
+      <a href="../Practicals/mapping.html">Reference mapping/alignment</a>
+      <a href="../Practicals/denovo.html">De novo assembly</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 2: Variant Calling and ML Trees</div>
+      <a href="../Practicals/VariantCall.html">Variant calling and VCFs</a>
+      <a href="../Practicals/Consensus_sequence.html">Building consensus sequences</a>
+      <a href="../Practicals/Align_sequence.html">Aligning consensus sequences</a>
+      <a href="../Practicals/ML_trees.html">Maximum Likelihood trees</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 3: Timed Phylogenetic Trees</div>
+      <a href="../Practicals/Treetime.html">ML timed trees</a>
+      <a href="../Practicals/BactDating.html">Bayesian trees (BactDating)</a>
+      <a href="../Practicals/Beast.html">Bayesian trees (BEAST2)</a>
+    </div>
+
+    <div class="subsection">
+      <div class="section-subtitle">Practical 4: Transmission and Profiling</div>
+      <a href="../Practicals/Identification.html">Identifying lineages and serotypes</a>
+      <a href="../Practicals/Transmission.html">Transmission network reconstruction</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 5: Mixed Infection, Recombination and ANI</div>
+      <a href="../Practicals/MixInfect.html">Identifying mixed infection</a>
+      <a href="../Practicals/Recombination.html">Detecting recombination</a>
+      <a href="../Practicals/ANI.html">Average nucleotide identity (ANI)</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 6: Phylogeography and Phylodynamics</div>
+      <a href="../Practicals/Ancestral_reconstruction.html">Phylogeography</a>
+      <a href="../Practicals/Phylodynamics_beast.html">Inferring population dynamics</a>
+    </div>
+
+    
+    <div class="subsection">
+      <div class="section-subtitle">Practical 7: Fitness and Selection</div>
+      <a href="../Practicals/LBI.html">Local branching index (LBI)</a>
+      <a href="../Practicals/Homoplasy.html">Detecing homoplasy</a>
+      <a href="../Practicals/dnds.html">dN/dS</a>
+      <a href="../Practicals/GWAS.html">GWAS</a>
+    </div>
+
+    <br>
+    <br>
+    
+  </div>
+</div>
+
+
+
+
+
+
+
+<body>
+  <div class="content">
+  
+<h2>Identifying homoplasy</h2>
+<p>We can identify sites that may be under selection by looking for homoplasies across our phylogenetic tree. Homoplasies are instances where mutations have evolved independently across different lineages due to natural selection. This can be accomplished using various computational methods and statistical tests designed to detect signatures of positive selection acting on specific sites in a phylogenetic context.</p>
+<p>There are various ways to carry out this analysis but here we will use a program called <a href="https://github.com/JosephCrispell/homoplasyFinder/tree/master">HomoplasyFinder</a> to identify sites that are inconsistent with the phylogeny and then plot highly discrepant sites on tree.</p>
+<p>We will use data from 200 <em>Mycobacterium tuberculosis</em> samples that were collected in Moldova between 2018 and 2019. We have provided you with the following files:</p>
+<p>The following files will be used for this exercise:</p>
+<ul>
+<li>
+<p><strong>TB_Moldova.fasta</strong> –  A multi-sequence SNP alignment file of <em>M. tuberculosis</em> samples from Moldova.</p>
+</li>
+<li>
+<p><strong>TB_Moldova.tree</strong> – A Maximum Likelihood phylogenetic tree produced from the sequence data.</p>
+</li>
+<li>
+<p><strong>TB_Moldova_index.txt</strong> – A text file indexing the SNPs in the sequence file to the true position in the H37Rv reference strain.</p>
+</li>
+</ul>
+<h3>1. First, we will run the homoplasy analysis using <a href="https://github.com/JosephCrispell/homoplasyFinder/tree/master">HomoplasyFinder</a>. This is a tool in R, though it has quite difficult dependencies. Therefore, I have provided a script to run this program on our data. In your terminal please run the command in your terminal:</h3>
+<pre><code class="language-bash">Rscript runHomoplasyFinder.R -f TB_Moldova.fasta -t TB_Moldova.tree
+</code></pre>
+<p><br></p>
+<h4>Next we will open the results in R to view the findings, identity where we may have homoplasy, and plot these on a tree.</h4>
+<h4>2. HomoplasyFinder will write 3 files to your directory. We are interested in the file that contains the positions in which there is evidence of homoplasy. We will read this file and call it 'results'.</h4>
+<pre><code class="language-r">resultsFile &lt;- paste0(&quot;consistencyIndexReport_&quot;, format(Sys.Date(), &quot;%d-%m-%y&quot;), &quot;.txt&quot;)
+results &lt;- read.table(resultsFile, header=TRUE, sep=&quot;\t&quot;, stringsAsFactors=FALSE)
+</code></pre>
+<p><br></p>
+<h4>3. Let's view the results. We have 4 columns, the first is the position in our sequence file, the second is an index that measures the degree of homoplasy, and third is a count of the nucleotides at that position across all samples. Importantly the fourth column shows us the number of times a change in nucleotide has occurred across the tree. A high number is evidence of homoplasy.</h4>
+<pre><code class="language-r">head(results)
+</code></pre>
+<p><br></p>
+<h4>4. We can filter for only positions in which changes to the nucleotide (mutation) has occurred a large number of times across the tree.</h4>
+<pre><code class="language-r">results &lt;- results[which(results$MinimumNumberChangesOnTree&gt;10),]
+</code></pre>
+<p><br></p>
+<h4>5. View the new results. We are left with two sites.</h4>
+<pre><code class="language-r">head(results)
+</code></pre>
+<p><br></p>
+<h4>6. We can plot the tree with the nucleotide found in each tip (sequence) to see how these mutations look across our phylogeny. We will do this one at a time for illustrative purposes. We will start with the first site:</h4>
+<pre><code class="language-r">fasta&lt;-seqinr::read.fasta(&quot;TB_Moldova.fasta&quot;,forceDNAtolower = F) # Read fasta
+tree&lt;-read.tree(&quot;TB_Moldova.tree&quot;) # Read the phylogeny
+
+## Make a matrix of the sequences
+Seq_df&lt;-as.data.frame(matrix(as.character(unlist(fasta)),nrow=length(fasta),byrow = T))
+
+## Extract the site that you want to plot to a vector and name it by the sequence name
+site&lt;-Seq_df[,6028]
+names(site)&lt;-names(fasta)
+
+## pick a colour for each nucleotide and change the vector to the colour
+site[which(site==&quot;c&quot;)]&lt;-&quot;lightblue&quot;
+site[which(site==&quot;g&quot;)]&lt;-&quot;red&quot;
+
+## Reorder the site vector to match the order of sequences on the tree
+site&lt;-site[order(match(names(site),tree$tip.label))]
+
+## plot the tree with the sites coloured at the tips.
+ggtree(tree) + geom_tippoint(color=site)
+</code></pre>
+<p><br></p>
+<h4>Exercise: Open the index file provided ("TB_Cluster_index.txt"). Find out the true positions of the high likelihood convergent SNPs. Search the internet for results and try to work out what these mutations are. What characteristic do you think the isolates carry these mutations have?</h4>
+<h3>Next activity: <a href="dnds.html">dD/dS</a></h3>
+		
+	</div>
+  <script src="../script.js"></script>
+</body>
+
+
+  
+</html>
