@@ -107,28 +107,28 @@
 <p><strong>TB_Moldova_index.txt</strong> – A text file indexing the SNPs in the sequence file to the true position in the H37Rv reference strain.</p>
 </li>
 </ul>
-<h3>1. First, we will run the homoplasy analysis using <a href="https://github.com/JosephCrispell/homoplasyFinder/tree/master">HomoplasyFinder</a>. This is a tool in R, though it has quite difficult dependencies. Therefore, I have provided a script to run this program on our data. In your terminal please run the command in your terminal:</h3>
+<h4>1. First, we will run the homoplasy analysis using <a href="https://github.com/JosephCrispell/homoplasyFinder/tree/master">HomoplasyFinder</a>. This is a tool in R, though it has quite difficult dependencies. Therefore, I have provided a script to run this program on our data. In your terminal please run the command in your terminal:</h4>
 <pre><code class="language-bash">Rscript runHomoplasyFinder.R -f TB_Moldova.fasta -t TB_Moldova.tree
 </code></pre>
-<p><br></p>
+
 <h4>Next we will open the results in R to view the findings, identity where we may have homoplasy, and plot these on a tree.</h4>
 <h4>2. HomoplasyFinder will write 3 files to your directory. We are interested in the file that contains the positions in which there is evidence of homoplasy. We will read this file and call it 'results'.</h4>
 <pre><code class="language-r">resultsFile &lt;- paste0(&quot;consistencyIndexReport_&quot;, format(Sys.Date(), &quot;%d-%m-%y&quot;), &quot;.txt&quot;)
 results &lt;- read.table(resultsFile, header=TRUE, sep=&quot;\t&quot;, stringsAsFactors=FALSE)
 </code></pre>
-<p><br></p>
+
 <h4>3. Let's view the results. We have 4 columns, the first is the position in our sequence file, the second is an index that measures the degree of homoplasy, and third is a count of the nucleotides at that position across all samples. Importantly the fourth column shows us the number of times a change in nucleotide has occurred across the tree. A high number is evidence of homoplasy.</h4>
 <pre><code class="language-r">head(results)
 </code></pre>
-<p><br></p>
+
 <h4>4. We can filter for only positions in which changes to the nucleotide (mutation) has occurred a large number of times across the tree.</h4>
 <pre><code class="language-r">results &lt;- results[which(results$MinimumNumberChangesOnTree&gt;10),]
 </code></pre>
-<p><br></p>
+
 <h4>5. View the new results. We are left with two sites.</h4>
 <pre><code class="language-r">head(results)
 </code></pre>
-<p><br></p>
+
 <h4>6. We can plot the tree with the nucleotide found in each tip (sequence) to see how these mutations look across our phylogeny. We will do this one at a time for illustrative purposes. We will start with the first site:</h4>
 <pre><code class="language-r">fasta&lt;-seqinr::read.fasta(&quot;TB_Moldova.fasta&quot;,forceDNAtolower = F) # Read fasta
 tree&lt;-read.tree(&quot;TB_Moldova.tree&quot;) # Read the phylogeny
