@@ -110,8 +110,24 @@ bacterial GWAS. This method can be very powerful for identifying SNPs in
 bacterial genomics that are significantly associated with a given
 phenotype. This phenotype can be a binary or continuous variable.</p>
 <p>This practical will guide you through running treeWAS to perform a
-GWAS using the 200 <em>M. tuberculosis</em> samples from Moldova from
-the BactDating practical in session 3.</p>
+GWAS using the 200 <em>M. tuberculosis</em> samples from Moldova.</p>
+
+
+<p>The following files will be used for this exercise:</p>
+<ul>
+<li>
+<p><strong>TB_Moldova.fasta</strong> –  A multi-sequence SNP alignment file of <em>M. tuberculosis</em> samples from Moldova.</p>
+</li>
+<li>
+<p><strong>TB_Moldova.tree</strong> – A Maximum Likelihood phylogenetic tree produced from the sequence data.</p>
+</li>
+<li>
+<p><strong>TB_Moldova_index.txt</strong> – A text file indexing the SNPs in the sequence file to the true position in the H37Rv reference strain.</p>
+</li>
+<li>
+<p><strong>TB_Moldova_metadata.csv</strong> – A CSV file with the sample name in the first column and the phenotype of interest in the second column.</p>
+</li>
+</ul>
 <p><br></p>
 <div id="first-we-will-set-up-the-packages-and-options" class="section level4">
 <h4>1. First we will set up the packages and options:</h4>
@@ -180,7 +196,7 @@ have been found to be significantly associated with the phenotype.</h4>
 “TB_Moldova_index.txt” which will enable you to link the coordinates in
 the genotype file to their position in the TB H37Rv reference strain.
 Find the genes that harbour the significant SNPs, what do you think the
-phenotype is in our analysis?</h4>
+phenotype is in our analysis? Do you find any similarities to the homoplasy analysis in an earlier exercise?</h4>
 <p><em>Tip: Go back to the NCBI tutorial on the first day to see how to
 view reference strains.</em></p>
 </div>
